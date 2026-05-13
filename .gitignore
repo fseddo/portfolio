@@ -1,0 +1,13 @@
+node_modules
+dist
+.vite
+.tanstack
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+.DS_Store
+
+# Personal / local conventions (carry over to a fresh repo manually)
+CLAUDE.local.md
+.claude/
