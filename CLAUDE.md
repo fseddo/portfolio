@@ -4,8 +4,8 @@ Auto-loaded for the whole repo. Rules only — for rationale and worked
 examples, follow the links at the bottom of each section once `docs/` exists.
 
 These rules are carried over from a larger sibling project. They've been
-trimmed to what applies *here* (single-page Vite + React + TanStack Router +
-vanilla CSS portfolio). When you add new dependencies or architecture
+trimmed to what applies *here* (single-page Vite + React + TanStack Router
++ Tailwind v4 portfolio). When you add new dependencies or architecture
 layers (data fetching, forms, animation library), promote the relevant
 patterns into this file rather than relying on memory.
 
@@ -76,24 +76,29 @@ DEFAULT_VIEW = 'spiral'`).
   promise. Before stripping, verify the absence of `await`/`try` is
   intentional, not a missed transform.
 
-## className concatenation
+## Styling — Tailwind v4
 
-Vanilla CSS, no Tailwind here. Most components hard-code their className.
-Once a className becomes conditional or composed from multiple sources,
-extract a tiny helper:
+Tailwind v4 via `@tailwindcss/vite`. Design tokens live in
+[src/globals.css](src/globals.css) under `@theme` (colors, fonts, radii,
+easing). Reference them through generated utilities (`bg-cream`,
+`text-copper`, `font-mono`, `ease-soft-out`).
 
-```ts
-const cx = (...parts: Array<string | false | null | undefined>) =>
-  parts.filter(Boolean).join(' ');
-```
-
-Drop it in `src/common/utils/cx.ts` the moment you need it twice. Don't
-template-literal concatenate; conditional fragments slip past type-checking
-and are harder to grep.
-
-CSS class names live under a single project namespace (`.portfolio-*`).
-Generic names like `.button`, `.wrapper`, `.link` are forbidden at the top
-level — they'll collide the moment you add any third-party CSS.
+- **Tailwind utilities first.** Compose styles inline in JSX. Don't write
+  per-component CSS files unless the design needs something utilities
+  can't express (complex keyframes, deeply nested non-reusable structure).
+- **Cross-cutting primitives in `globals.css`.** Things every section
+  reaches for and that aren't a single utility — `.it` (the italic-serif
+  copper accent), `.rv` (reveal-on-scroll) — live there. They earn a
+  global class name because they're applied site-wide.
+- **Arbitrary values are fine when the design specifies an exact figure.**
+  `text-[clamp(40px,5vw,88px)]`, `tracking-[-0.045em]` — the design
+  handoff is the source of truth and most values are precise (not on the
+  Tailwind default scale).
+- **`cx` helper for conditional or composed classNames** lives at
+  [src/common/utils/cx.ts](src/common/utils/cx.ts). Use it the moment a
+  className is composed from more than one source. Don't template-literal
+  concatenate — conditional fragments slip past type-checking and are
+  harder to grep.
 
 ## Motion
 
