@@ -183,14 +183,10 @@ body::before {
  * ───────────────────────────────────────────────────────────────────────── */
 
 /* Tracker — SVG mockup of a legislative-tracker dashboard. Single viewBox
- * so the whole composition scales as a unit (same pattern as `.art-pipe`).
- * Top inset clears the slot tag ("02 · CMS REBUILD") so it sits in the dark
- * frame above the dashboard chrome. Side/bottom inset is the safe zone for
- * the 1.03× hover zoom — without it the dashboard edges crop. */
+ * so the whole composition scales as a unit (same pattern as `.art-pipe`). */
 .art-cms {
   position: absolute;
-  inset: 32px 8px 8px 8px;
-  border-radius: 5px;
+  inset: 0;
   background: #141a16;
   overflow: hidden;
 }
@@ -755,22 +751,6 @@ body::before {
 /* About badge role label → c2. */
 .about-badge .r {
   color: var(--color-c2);
-}
-
-/* Per-project card tag accents (number + hairline). */
-#slot-tracker .work-art .tag .n {
-  color: var(--color-c2);
-}
-#slot-tracker .work-art .tag .line {
-  background: var(--color-c2);
-  opacity: 0.75;
-}
-#slot-pipeline .work-art .tag .n {
-  color: var(--color-c3);
-}
-#slot-pipeline .work-art .tag .line {
-  background: var(--color-c3);
-  opacity: 0.75;
 }
 
 /* Third hero side chip ("moss" slot) takes c3 instead of moss. */

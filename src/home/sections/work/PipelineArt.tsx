@@ -251,14 +251,6 @@ export const PipelineArt = () => (
           </circle>
         );
       })}
-
-      {/* Bottom stat line. */}
-      <text className='stat-line stat-line-left' x='10' y='245'>
-        VARIOUS DATA SOURCES AND STRUCTURES MODELED INTO A UNIFIED STREAM
-      </text>
-      {/* <text className='stat-line stat-line-right' x='390' y='245' textAnchor='end'>
-        → INDEX
-      </text> */}
     </svg>
   </div>
 );

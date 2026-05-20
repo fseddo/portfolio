@@ -16,7 +16,7 @@ export const Work = () => {
         noteLine2='Three of many'
       />
 
-      <div className='grid grid-cols-2 gap-6 max-[900px]:grid-cols-1'>
+      <div className='flex flex-col gap-8'>
         {PROJECTS.map((project) => (
           <WorkSlot
             key={project.id}

@@ -25,10 +25,18 @@ export const UrbanstemsArt = () => {
               i === current ? 'opacity-100' : 'opacity-0'
             )}
           >
-            <img src={slide.src} alt={slide.alt} className='h-full w-full object-cover' />
+            <img src={slide.src} alt={slide.alt} className='h-full w-full object-cover object-left-top' />
           </div>
         ))}
       </div>
+
+      {/* Bottom-up dark veil so the dots and demo CTA stay legible over any
+          slide. Lives here (not on the .work-art container) because Tracker
+          and Pipeline don't need it. */}
+      <div
+        aria-hidden='true'
+        className='pointer-events-none absolute inset-0 z-2 bg-[linear-gradient(180deg,transparent_0%,transparent_55%,rgba(27,32,29,0.55)_88%,rgba(27,32,29,0.92)_100%)]'
+      />
 
       <div className='absolute bottom-[18px] left-[18px] z-4 flex gap-[7px]'>
         {URBANSTEMS_SLIDES.map((slide, i) => (

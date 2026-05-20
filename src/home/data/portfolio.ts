@@ -43,9 +43,6 @@ export type ProjectId = 'urbanstems' | 'tracker' | 'pipeline';
 
 export type Project = {
   id: ProjectId;
-  /** Card label inside the dark veil (e.g. "01 · Full-stack e-commerce"). */
-  tagNumber: string;
-  tagText: string;
   eyebrowYear: string;
   eyebrowMeta: string;
   /** HTML title with optional italic accent. */
@@ -140,8 +137,6 @@ export const HERO_CHIPS: readonly HeroChip[] = [
 export const PROJECTS: readonly Project[] = [
   {
     id: 'urbanstems',
-    tagNumber: '01',
-    tagText: 'Full-stack e-commerce',
     eyebrowYear: '2025',
     eyebrowMeta: 'Live · Personal build',
     titleHtml: 'Urbanstems Clone',
@@ -152,8 +147,6 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     id: 'tracker',
-    tagNumber: '02',
-    tagText: 'CMS rebuild',
     eyebrowYear: '2025',
     eyebrowMeta: 'Lead · 6 engineers',
     titleHtml: 'Legislative <span class="it">Tracker</span>',
@@ -163,8 +156,6 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     id: 'pipeline',
-    tagNumber: '03',
-    tagText: 'Backend automation - Data Ingestion pipeline',
     eyebrowYear: '2024–26',
     eyebrowMeta: 'Production · Backend lead',
     titleHtml: 'Signal <span class="it">Pipeline</span>',

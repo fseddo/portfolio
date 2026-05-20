@@ -3,15 +3,17 @@
  *
  * Everything (sidebar, top chrome, stats, bill list, split-pane detail) lives
  * in ONE `<svg>` with a single viewBox so the whole composition scales as a
- * proportional unit — same pattern as {@link PipelineArt}, no flex sizing
- * fights, no per-card-size tuning of text. `preserveAspectRatio` defaults to
- * `xMidYMid meet`, so the dashboard letterboxes inside the dark
- * {@link "globals.css" .art-cms} container if aspects diverge slightly.
+ * unit — same pattern as {@link PipelineArt}, no flex sizing fights, no
+ * per-card-size tuning of text. `preserveAspectRatio="xMinYMin slice"` is
+ * cover-fit: the viewBox scales uniformly to FILL the art container with no
+ * letterboxing, anchored to the top-left corner. Whichever dimension is the
+ * larger scale factor wins, so content on the opposite edge (bottom on a
+ * wide container, right side on a tall one) is clipped by the SVG viewport.
+ * Trade-off accepted in exchange for un-distorted geometry at every size.
  *
  * Geometry: viewBox `0 0 500 380`. Sidebar = x 0–70, main = x 70–500.
  * Vertical bands: top bar 0–32, body 32–380 (cms-h, stats, list, resize,
- * detail). Tag clearance (the slot's "02 · CMS REBUILD" label) is handled by
- * `.art-cms`'s top inset in CSS, not inside the SVG.
+ * detail).
  *
  * Styles live under `.art-cms` in globals.css.
  */
@@ -56,7 +58,7 @@ const CO_SPONSORS = ['JA', 'MR', 'KL', 'TS', 'DP'];
 
 export const TrackerArt = () => (
   <div className='art-cms'>
-    <svg viewBox='0 0 500 380' xmlns='http://www.w3.org/2000/svg'>
+    <svg viewBox='0 0 500 380' preserveAspectRatio='xMinYMin slice' xmlns='http://www.w3.org/2000/svg'>
       {/* Sidebar background + divider */}
       <rect className='cms-side-bg' x='0' y='0' width='70' height='380' />
       <line className='cms-divider' x1='70' y1='0' x2='70' y2='380' />

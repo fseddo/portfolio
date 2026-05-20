@@ -43,6 +43,8 @@ const CASE_FADE_MS = 360;
  * and sizes the slot; the card goes absolute and invisible.
  */
 export const WorkSlot = ({ project, casing, onOpen, onClose }: WorkSlotProps) => {
+  // `wide` no longer affects the row card (every row is full-width), but the
+  // case panel still uses it to choose its internal layout.
   const wide = project.wide ?? false;
   const Art = ARTS[project.id];
 
@@ -80,63 +82,23 @@ export const WorkSlot = ({ project, casing, onOpen, onClose }: WorkSlotProps) =>
     // the imperative `.in` survives.
     <div
       id={`slot-${project.id}`}
-      className={cx(
-        'rv relative flex min-h-0 flex-col',
-        wide && 'col-span-full'
-      )}
+      className='rv relative flex min-h-0 flex-col'
     >
       <article
         className={cx(
-          'work-card flex flex-col overflow-hidden rounded-[14px] border border-line bg-cream-2 transition-[opacity,transform] duration-300 ease-soft-out',
+          'work-card flex flex-row max-[900px]:flex-col-reverse overflow-hidden rounded-[14px] border border-line bg-cream-2 transition-[opacity,transform] duration-300 ease-soft-out',
           panelMounted
             ? 'pointer-events-none absolute inset-0 opacity-0'
             : 'hover:-translate-y-[3px] hover:shadow-[0_24px_50px_-28px_rgba(27,32,29,0.22)]'
         )}
       >
-        <div
-          className={cx(
-            'work-art group/art relative overflow-hidden bg-ink',
-            wide ? 'aspect-[21/9]' : 'aspect-[5/4]'
-          )}
-        >
-          {WRAP_FOR_HOVER_SCALE[project.id] ? (
-            <div className='absolute inset-0 transition-transform duration-1200 ease-soft-out group-hover/art:scale-[1.03]'>
-              <Art />
-            </div>
-          ) : (
-            <Art />
-          )}
-
-          {/* Bottom-up dark veil so the tag and dots stay legible. */}
-          <div
-            aria-hidden='true'
-            className='pointer-events-none absolute inset-0 z-2 bg-[linear-gradient(180deg,transparent_0%,transparent_55%,rgba(27,32,29,0.55)_88%,rgba(27,32,29,0.92)_100%)]'
-          />
-
-          {/* `.tag` + `.line` + `.n` are palette-expand hooks — recolored per
-              project slot (Urbanstems c1, Tracker c2, Pipeline c3). */}
-          <span className='tag absolute top-4 left-[18px] z-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-cream/[0.78]'>
-            <span className='line inline-block h-px w-[18px] bg-cream/40' />
-            <span className='n font-medium text-cream'>{project.tagNumber}</span>
-            <span>· {project.tagText}</span>
-          </span>
-        </div>
-
-        <div
-          className={cx(
-            'work-body flex flex-col gap-[11px]',
-            wide ? 'p-[28px_32px_30px]' : 'p-[24px_28px_26px]'
-          )}
-        >
+        <div className='work-body flex basis-[60%] flex-col justify-center gap-[12px] p-[34px_36px] max-[900px]:basis-auto max-[900px]:p-[26px_28px_28px]'>
           <div className='flex items-center gap-[9px] font-mono text-[10px] uppercase tracking-[0.14em] text-copper'>
             <span className='font-normal text-ink-light'>{project.eyebrowYear}</span>
             <span>· {project.eyebrowMeta}</span>
           </div>
           <h3
-            className={cx(
-              'm-0 font-sans font-normal leading-[1.05] tracking-[-0.015em] text-ink',
-              wide ? 'text-[28px]' : 'text-[24px]'
-            )}
+            className='m-0 font-sans text-[28px] font-normal leading-[1.05] tracking-[-0.015em] text-ink'
             dangerouslySetInnerHTML={{ __html: project.titleHtml }}
           />
           <p
@@ -162,6 +124,18 @@ export const WorkSlot = ({ project, casing, onOpen, onClose }: WorkSlotProps) =>
           >
             View case study →
           </button>
+        </div>
+
+        <div
+          className='work-art group/art relative basis-[40%] self-stretch overflow-hidden bg-ink max-[900px]:basis-auto max-[900px]:aspect-[5/4]'
+        >
+          {WRAP_FOR_HOVER_SCALE[project.id] ? (
+            <div className='absolute inset-0 transition-transform duration-1200 ease-soft-out group-hover/art:scale-[1.03]'>
+              <Art />
+            </div>
+          ) : (
+            <Art />
+          )}
         </div>
       </article>
 
