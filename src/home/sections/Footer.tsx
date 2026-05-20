@@ -34,10 +34,11 @@ export const Footer = () => (
               href={link.href}
               target={'external' in link && link.external ? '_blank' : undefined}
               rel={'external' in link && link.external ? 'noreferrer' : undefined}
-              className='group inline-flex items-center gap-2 border-b border-line py-[6px] font-sans text-[17px] text-ink transition-all duration-250 hover:gap-[14px] hover:border-copper hover:text-copper'
+              className='footer-link group inline-flex items-center gap-2 border-b border-line py-[6px] font-sans text-[17px] text-ink transition-all duration-250 hover:gap-[14px] hover:border-copper hover:text-copper'
             >
               <span>{link.label}</span>
-              <span className='font-mono text-[13px] text-ink-light transition-colors duration-250 group-hover:text-copper'>
+              {/* `.arr` palette-expand hook — palette-expand recolors to c2 on hover. */}
+              <span className='arr font-mono text-[13px] text-ink-light transition-colors duration-250 group-hover:text-copper'>
                 {link.arrow}
               </span>
             </a>

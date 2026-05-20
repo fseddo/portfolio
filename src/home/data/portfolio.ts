@@ -12,7 +12,7 @@ export type HeroStat = {
 };
 
 export type HeroChip = {
-  dot: 'green' | 'copper' | 'moss';
+  dot: 'c2' | 'copper' | 'moss';
   heading: string;
   sub: string;
   bobDurationS: number;
@@ -110,7 +110,7 @@ export const HERO_STATS: readonly HeroStat[] = [
 
 export const HERO_CHIPS: readonly HeroChip[] = [
   {
-    dot: 'green',
+    dot: 'c2',
     heading: 'Open to roles',
     sub: 'Senior · Staff · Fullstack',
     bobDurationS: 7.5,
@@ -164,7 +164,7 @@ export const PROJECTS: readonly Project[] = [
   {
     id: 'pipeline',
     tagNumber: '03',
-    tagText: 'Backend automation',
+    tagText: 'Backend automation - Data Ingestion pipeline',
     eyebrowYear: '2024–26',
     eyebrowMeta: 'Production · Backend lead',
     titleHtml: 'Signal <span class="it">Pipeline</span>',

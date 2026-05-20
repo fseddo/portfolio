@@ -22,11 +22,12 @@ export const About = () => (
             className='h-full w-full object-cover object-[center_15%]'
           />
         </div>
-        <div className='absolute right-[-14px] bottom-[-14px] min-w-[170px] rounded-lg border border-line bg-cream p-[12px_16px] shadow-[0_8px_24px_-10px_rgba(27,20,12,0.15)]'>
+        <div className='about-badge absolute right-[-14px] bottom-[-14px] min-w-[170px] rounded-lg border border-line bg-cream p-[12px_16px] shadow-[0_8px_24px_-10px_rgba(27,32,29,0.15)]'>
           <div className='mb-[2px] text-[13px] font-semibold text-ink'>
             Francesco Seddo
           </div>
-          <div className='font-mono text-[10px] uppercase tracking-[0.06em] text-copper'>
+          {/* `.r` palette-expand hook — recolors to c2 in globals.css. */}
+          <div className='r font-mono text-[10px] uppercase tracking-[0.06em] text-copper'>
             SE III · NY
           </div>
         </div>

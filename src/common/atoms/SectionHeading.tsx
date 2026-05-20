@@ -9,7 +9,7 @@ type SectionHeadingProps = {
 export const SectionHeading = ({ children, className }: SectionHeadingProps) => (
   <h2
     className={cx(
-      'm-0 font-sans font-light leading-none tracking-tight text-ink text-[clamp(36px,4vw,52px)]',
+      'section-title m-0 font-sans font-light leading-none tracking-tight text-ink text-[clamp(36px,4vw,52px)]',
       className
     )}
   >

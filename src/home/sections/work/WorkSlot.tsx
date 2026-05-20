@@ -72,25 +72,30 @@ export const WorkSlot = ({ project, casing, onOpen, onClose }: WorkSlotProps) =>
   }, [casing]);
 
   return (
+    // `.rv` lives on the stable slot wrapper, NOT the article: useRevealOnScroll
+    // adds `.in` via `classList.add` (imperative DOM), and React re-renders the
+    // article's className every time `panelMounted` flips. If `.rv` lived on
+    // the article, returning from a case study would wipe `.in` and the card
+    // would re-hide at opacity 0 — the slot wrapper's className is stable so
+    // the imperative `.in` survives.
     <div
       id={`slot-${project.id}`}
       className={cx(
-        'relative flex min-h-0 flex-col',
+        'rv relative flex min-h-0 flex-col',
         wide && 'col-span-full'
       )}
     >
       <article
         className={cx(
-          'flex flex-col overflow-hidden rounded-[14px] border border-line bg-cream-2 transition-[opacity,transform] duration-300 ease-soft-out',
+          'work-card flex flex-col overflow-hidden rounded-[14px] border border-line bg-cream-2 transition-[opacity,transform] duration-300 ease-soft-out',
           panelMounted
             ? 'pointer-events-none absolute inset-0 opacity-0'
-            : 'hover:-translate-y-[3px] hover:shadow-[0_24px_50px_-28px_rgba(27,20,12,0.22)]',
-          'rv'
+            : 'hover:-translate-y-[3px] hover:shadow-[0_24px_50px_-28px_rgba(27,32,29,0.22)]'
         )}
       >
         <div
           className={cx(
-            'group/art relative overflow-hidden bg-ink',
+            'work-art group/art relative overflow-hidden bg-ink',
             wide ? 'aspect-[21/9]' : 'aspect-[5/4]'
           )}
         >
@@ -105,18 +110,21 @@ export const WorkSlot = ({ project, casing, onOpen, onClose }: WorkSlotProps) =>
           {/* Bottom-up dark veil so the tag and dots stay legible. */}
           <div
             aria-hidden='true'
-            className='pointer-events-none absolute inset-0 z-2 bg-[linear-gradient(180deg,transparent_0%,transparent_55%,rgba(27,20,12,0.55)_88%,rgba(27,20,12,0.92)_100%)]'
+            className='pointer-events-none absolute inset-0 z-2 bg-[linear-gradient(180deg,transparent_0%,transparent_55%,rgba(27,32,29,0.55)_88%,rgba(27,32,29,0.92)_100%)]'
           />
 
-          <span className='absolute top-4 left-[18px] z-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-cream/[0.78] before:inline-block before:h-px before:w-[18px] before:bg-cream/40'>
-            <span className='font-medium text-cream'>{project.tagNumber}</span>
+          {/* `.tag` + `.line` + `.n` are palette-expand hooks — recolored per
+              project slot (Urbanstems c1, Tracker c2, Pipeline c3). */}
+          <span className='tag absolute top-4 left-[18px] z-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-cream/[0.78]'>
+            <span className='line inline-block h-px w-[18px] bg-cream/40' />
+            <span className='n font-medium text-cream'>{project.tagNumber}</span>
             <span>· {project.tagText}</span>
           </span>
         </div>
 
         <div
           className={cx(
-            'flex flex-col gap-[11px]',
+            'work-body flex flex-col gap-[11px]',
             wide ? 'p-[28px_32px_30px]' : 'p-[24px_28px_26px]'
           )}
         >
@@ -135,11 +143,13 @@ export const WorkSlot = ({ project, casing, onOpen, onClose }: WorkSlotProps) =>
             className='max-w-[60ch] text-sm leading-[1.65] text-ink-mid [&_strong]:font-medium [&_strong]:text-ink'
             dangerouslySetInnerHTML={{ __html: project.bodyHtml }}
           />
-          <div className='mt-1 flex flex-wrap gap-[6px]'>
+          {/* `.tech-chips` + `.tch` — palette-expand rotates accent colors on
+              the 3n+2 and 3n positions inside each card. */}
+          <div className='tech-chips mt-1 flex flex-wrap gap-[6px]'>
             {project.chips.map((chip) => (
               <span
                 key={chip}
-                className='rounded-pill border border-copper/30 bg-transparent px-[11px] py-[5px] font-mono text-[10.5px] tracking-[0.02em] text-copper transition-colors duration-200 hover:border-transparent hover:bg-copper hover:text-cream'
+                className='tch rounded-pill border border-copper/30 bg-transparent px-[11px] py-[5px] font-mono text-[10.5px] tracking-[0.02em] text-copper transition-colors duration-200 hover:border-transparent hover:bg-copper hover:text-cream'
               >
                 {chip}
               </span>

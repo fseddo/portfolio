@@ -1,18 +1,27 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-cream: #efe8da;
-  --color-cream-2: #e5dcc9;
-  --color-cream-3: #d6cab0;
-  --color-ink: #1b140c;
-  --color-ink-2: #2a1f14;
-  --color-ink-mid: #5c4f40;
-  --color-ink-light: #8c7e68;
-  --color-line: rgba(27, 20, 12, 0.14);
-  --color-line-2: rgba(27, 20, 12, 0.07);
-  --color-copper: #b85a2a;
-  --color-copper-dim: oklch(72% 0.09 35);
-  --color-moss: #5a6d3a;
+  /* Linen & Sage palette. The base is the same three-step cream / three-step
+   * ink / single-step accent scaffold as Direction F warm-cream, retoned to
+   * a cool linen page and a sage-green primary accent. */
+  --color-cream: #eae7dd;
+  --color-cream-2: #dcd8cb;
+  --color-cream-3: #c7c2b0;
+  --color-ink: #1b201d;
+  --color-ink-2: #2a2f2c;
+  --color-ink-mid: #5a6058;
+  --color-ink-light: #8a8e84;
+  --color-line: rgba(27, 32, 29, 0.14);
+  --color-line-2: rgba(27, 32, 29, 0.07);
+  --color-copper: #5b7a52;
+  --color-copper-dim: oklch(58% 0.085 135);
+  --color-moss: #6d7f47;
+
+  /* Secondary accents — terracotta and mustard — distributed across the page
+   * by the palette-expand block below so the design doesn't read as
+   * mono-accent. Tokens (not just hex) so utilities like `text-c2` work. */
+  --color-c2: #c26841;
+  --color-c3: #c5a035;
 
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
@@ -46,13 +55,8 @@ body {
 }
 
 ::selection {
-  background: var(--color-ink);
+  background: var(--color-copper);
   color: var(--color-cream);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
 }
 
 /* Page-wide paper grain. Fixed pseudo-element so it doesn't scroll. */
@@ -64,7 +68,7 @@ body::before {
   pointer-events: none;
   background-image: radial-gradient(
     circle at 1px 1px,
-    rgba(27, 20, 12, 0.04) 1px,
+    rgba(27, 32, 29, 0.04) 1px,
     transparent 0
   );
   background-size: 3px 3px;
@@ -145,25 +149,52 @@ body::before {
   }
 }
 
+/* Hero side-chip dot color set. Lives here (not inline) because the
+ * palette-expand block at the bottom targets `.hchip .d.ms` to swap it from
+ * moss to c3, and a single CSS source is easier to reason about. */
+.hchip .d {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+/* Was `.d.gn` (pure-green status dot). Removed because the entire palette
+ * already reads as green/sage — a green dot blended into the layout. The
+ * "Open to roles" chip now uses c2 (terracotta) for clear contrast. */
+.hchip .d.c2 {
+  background: var(--color-c2);
+  box-shadow: 0 0 0 3px rgba(194, 104, 65, 0.22);
+}
+.hchip .d.cu {
+  background: var(--color-copper);
+  box-shadow: 0 0 0 3px rgba(91, 122, 82, 0.2);
+}
+.hchip .d.ms {
+  background: var(--color-moss);
+  box-shadow: 0 0 0 3px rgba(109, 127, 71, 0.22);
+}
+
 /* ──────────────────────────────────────────────────────────────────────────
  * Project art mockups (Tracker CMS, Signal Pipeline). These are dense,
  * one-off illustrations rendered inside a 5/4 card. Sizes (8–13px text,
  * 70px rail, etc.) are tuned to the actual render size — don't increase.
+ * Dark-art surface colors are subtly green-shifted (`#141A16` etc.) to
+ * harmonize with the linen page rather than reading as pure black.
  * ───────────────────────────────────────────────────────────────────────── */
 
 /* Tracker — fake legislative-tracker dashboard. */
 .art-cms {
   position: absolute;
   inset: 0;
-  background: #100c08;
+  background: #141a16;
   overflow: hidden;
   display: grid;
   grid-template-columns: 70px 1fr;
   font-family: var(--font-mono);
 }
 .art-cms .cms-side {
-  background: #0a0805;
-  border-right: 1px solid rgba(239, 232, 218, 0.07);
+  background: #0e1411;
+  border-right: 1px solid rgba(234, 231, 221, 0.07);
   padding: 10px 0;
   display: flex;
   flex-direction: column;
@@ -179,7 +210,7 @@ body::before {
   font-weight: 500;
   color: var(--color-cream);
   letter-spacing: 0.04em;
-  border-bottom: 1px solid rgba(239, 232, 218, 0.06);
+  border-bottom: 1px solid rgba(234, 231, 221, 0.06);
   margin-bottom: 6px;
 }
 .art-cms .cms-side .logo .lg {
@@ -196,7 +227,7 @@ body::before {
   gap: 6px;
   padding: 5px 11px;
   font-size: 9px;
-  color: rgba(239, 232, 218, 0.5);
+  color: rgba(234, 231, 221, 0.5);
   letter-spacing: 0.05em;
   border-left: 2px solid transparent;
 }
@@ -204,12 +235,12 @@ body::before {
   width: 8px;
   height: 8px;
   border-radius: 2px;
-  background: rgba(239, 232, 218, 0.18);
+  background: rgba(234, 231, 221, 0.18);
   flex-shrink: 0;
 }
 .art-cms .cms-side .nv.act {
   color: var(--color-cream);
-  background: rgba(184, 90, 42, 0.1);
+  background: rgba(91, 122, 82, 0.1);
   border-left-color: var(--color-copper);
 }
 .art-cms .cms-side .nv.act .ic {
@@ -222,8 +253,8 @@ body::before {
 }
 .art-cms .cms-top {
   height: 26px;
-  background: #0d0905;
-  border-bottom: 1px solid rgba(239, 232, 218, 0.07);
+  background: #101714;
+  border-bottom: 1px solid rgba(234, 231, 221, 0.07);
   display: flex;
   align-items: center;
   padding: 0 11px;
@@ -232,7 +263,7 @@ body::before {
 }
 .art-cms .cms-top .cr {
   font-size: 8.5px;
-  color: rgba(239, 232, 218, 0.5);
+  color: rgba(234, 231, 221, 0.5);
   letter-spacing: 0.06em;
   white-space: nowrap;
   overflow: hidden;
@@ -240,15 +271,15 @@ body::before {
   min-width: 0;
 }
 .art-cms .cms-top .cr .sep {
-  color: rgba(239, 232, 218, 0.25);
+  color: rgba(234, 231, 221, 0.25);
   margin: 0 5px;
 }
 .art-cms .cms-top .sr {
   margin-left: auto;
   font-size: 8.5px;
-  color: rgba(239, 232, 218, 0.32);
-  background: rgba(239, 232, 218, 0.04);
-  border: 1px solid rgba(239, 232, 218, 0.07);
+  color: rgba(234, 231, 221, 0.32);
+  background: rgba(234, 231, 221, 0.04);
+  border: 1px solid rgba(234, 231, 221, 0.07);
   padding: 2px 8px;
   border-radius: 99px;
   flex-shrink: 0;
@@ -257,7 +288,7 @@ body::before {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-copper), #8b3f1a);
+  background: linear-gradient(135deg, var(--color-copper), #3f5938);
   flex-shrink: 0;
 }
 .art-cms .cms-body {
@@ -291,13 +322,13 @@ body::before {
   display: flex;
   gap: 4px;
   font-size: 8.5px;
-  color: rgba(239, 232, 218, 0.7);
+  color: rgba(234, 231, 221, 0.7);
   flex-shrink: 0;
 }
 .art-cms .cms-h .ac .bt {
   padding: 3px 8px;
-  background: rgba(239, 232, 218, 0.05);
-  border: 1px solid rgba(239, 232, 218, 0.1);
+  background: rgba(234, 231, 221, 0.05);
+  border: 1px solid rgba(234, 231, 221, 0.1);
   border-radius: 4px;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -313,8 +344,8 @@ body::before {
   gap: 5px;
 }
 .art-cms .stat {
-  background: rgba(239, 232, 218, 0.04);
-  border: 1px solid rgba(239, 232, 218, 0.07);
+  background: rgba(234, 231, 221, 0.04);
+  border: 1px solid rgba(234, 231, 221, 0.07);
   border-radius: 4px;
   padding: 5px 8px;
   display: flex;
@@ -325,7 +356,7 @@ body::before {
 }
 .art-cms .stat .lb {
   font-size: 8px;
-  color: rgba(239, 232, 218, 0.5);
+  color: rgba(234, 231, 221, 0.5);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -339,8 +370,8 @@ body::before {
   line-height: 1;
 }
 .art-cms .table {
-  background: rgba(239, 232, 218, 0.025);
-  border: 1px solid rgba(239, 232, 218, 0.07);
+  background: rgba(234, 231, 221, 0.025);
+  border: 1px solid rgba(234, 231, 221, 0.07);
   border-radius: 4px;
   padding: 5px 9px;
   display: flex;
@@ -355,11 +386,11 @@ body::before {
   grid-template-columns: 1.6fr 1fr 38px;
   gap: 7px;
   padding: 0 4px 4px;
-  border-bottom: 1px solid rgba(239, 232, 218, 0.07);
+  border-bottom: 1px solid rgba(234, 231, 221, 0.07);
   font-size: 7.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(239, 232, 218, 0.4);
+  color: rgba(234, 231, 221, 0.4);
 }
 .art-cms .table .tr {
   display: grid;
@@ -367,20 +398,20 @@ body::before {
   gap: 7px;
   padding: 3.5px 4px;
   align-items: center;
-  border-bottom: 1px dashed rgba(239, 232, 218, 0.04);
+  border-bottom: 1px dashed rgba(234, 231, 221, 0.04);
 }
 .art-cms .table .tr:last-child {
   border-bottom: none;
 }
 .art-cms .table .tr.live {
-  background: rgba(184, 90, 42, 0.12);
+  background: rgba(91, 122, 82, 0.12);
   border-radius: 3px;
-  border: 1px solid rgba(184, 90, 42, 0.3);
+  border: 1px solid rgba(91, 122, 82, 0.3);
 }
 .art-cms .table .tr .nm {
   font-family: var(--font-sans);
   font-size: 9.5px;
-  color: rgba(239, 232, 218, 0.85);
+  color: rgba(234, 231, 221, 0.85);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -397,10 +428,10 @@ body::before {
   flex-shrink: 0;
 }
 .art-cms .table .tr .nm .b.y {
-  background: #d9a23a;
+  background: #c99935;
 }
 .art-cms .table .tr .nm .b.r {
-  background: #c84a3a;
+  background: #b14c3f;
 }
 .art-cms .table .tr .nm .b.cu {
   background: var(--color-copper);
@@ -412,28 +443,31 @@ body::before {
   white-space: nowrap;
 }
 .art-cms .table .tr .st.y {
-  color: #d9a23a;
+  color: #c99935;
 }
 .art-cms .table .tr .st.r {
-  color: #c84a3a;
+  color: #b14c3f;
 }
 .art-cms .table .tr.live .st {
   color: var(--color-copper);
 }
 .art-cms .table .tr .wn {
   font-size: 8px;
-  color: rgba(239, 232, 218, 0.4);
+  color: rgba(234, 231, 221, 0.4);
   text-align: right;
 }
 
-/* Pipeline — animated SVG ingest diagram. */
+/* Pipeline — animated SVG ingest diagram. Everything (labels, pills,
+ * feeds, rings, signals) lives inside one SVG so the whole composition
+ * scales as a single unit. `preserveAspectRatio` defaults to `xMidYMid
+ * meet` — the diagram shrinks proportionally with the card. */
 .art-pipe {
   position: absolute;
   inset: 0;
-  background: #14100a;
+  background: #161d18;
   background-image: radial-gradient(
       circle at 50% 50%,
-      rgba(184, 90, 42, 0.16),
+      rgba(91, 122, 82, 0.16),
       transparent 65%
     ),
     repeating-linear-gradient(
@@ -443,124 +477,98 @@ body::before {
     );
   overflow: hidden;
 }
-.art-pipe .corner {
-  position: absolute;
-  top: 13px;
-  left: 16px;
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(239, 232, 218, 0.4);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  z-index: 5;
-}
-.art-pipe .corner::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--color-copper);
-}
-.art-pipe .ticker {
-  position: absolute;
-  top: 13px;
-  right: 16px;
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(239, 232, 218, 0.55);
-  z-index: 5;
-}
-.art-pipe .stat-line {
-  position: absolute;
-  bottom: 12px;
-  left: 16px;
-  right: 16px;
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  color: rgba(239, 232, 218, 0.45);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  z-index: 5;
-}
-.art-pipe .stat-line .cu {
-  color: var(--color-copper);
-}
 .art-pipe svg {
   position: absolute;
-  inset: 38px 12px 30px;
-  width: calc(100% - 24px);
-  height: calc(100% - 68px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: visible;
 }
-.art-pipe .src {
-  position: absolute;
-  left: 16px;
+
+/* Source pills — `<g>` containing rect (bg), circle (dot), text (label). */
+.art-pipe .src-bg {
+  /* Bumped from 0.06 → 0.10 (and stroke 0.14 → 0.20) so the pills stay
+   * legible even outside the brighter center of the radial bg gradient —
+   * the Email pill sits in the dimmer outer band and was losing contrast. */
+  fill: rgba(234, 231, 221, 0.1);
+  stroke: rgba(234, 231, 221, 0.2);
+  stroke-width: 0.5;
+}
+.art-pipe .src-dot {
+  /* Default (Twitter) — matches the default `.signal` teal. */
+  fill: #5bc8de;
+  filter: drop-shadow(0 0 2px #5bc8de);
+}
+/* Per-source dot colors — match the signal particle that travels each
+ * source's feed (.signal.warm/.dim/.moss). Same naming as the signal
+ * classes so the source pill and its emitting bubble read as one. */
+.art-pipe .src.warm .src-dot {
+  /* Facebook — deeper brand blue. */
+  fill: #4a6baa;
+  filter: drop-shadow(0 0 2px #4a6baa);
+}
+.art-pipe .src.dim .src-dot {
+  /* News RSS — red. */
+  fill: #d5483a;
+  filter: drop-shadow(0 0 2px #d5483a);
+}
+.art-pipe .src.moss .src-dot {
+  /* Email — purple. */
+  fill: #b478e8;
+  filter: drop-shadow(0 0 2px #b478e8);
+}
+.art-pipe .src-label {
   font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(239, 232, 218, 0.78);
-  background: rgba(239, 232, 218, 0.06);
-  border: 1px solid rgba(239, 232, 218, 0.14);
-  padding: 4px 8px;
-  border-radius: 5px;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  backdrop-filter: blur(6px);
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+  fill: rgba(234, 231, 221, 0.92);
 }
-.art-pipe .src .d {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--color-copper);
-  flex-shrink: 0;
-  box-shadow: 0 0 6px var(--color-copper);
-}
-.art-pipe .src.s1 {
-  top: 18%;
-}
-.art-pipe .src.s2 {
-  top: 36%;
-}
-.art-pipe .src.s3 {
-  top: 54%;
-}
-.art-pipe .src.s4 {
-  top: 72%;
-}
-.art-pipe .tunnel-out {
-  position: absolute;
-  right: 13%;
-  top: 50%;
-  transform: translateY(-50%);
+/* Secondary line under each source label — describes what that source
+ * actually surfaces (e.g. "Bio & name changes" under TWITTER). Smaller and
+ * dimmer than the label so the hierarchy reads at a glance. */
+.art-pipe .src-sub {
   font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-cream);
-  background: var(--color-copper);
-  padding: 6px 11px;
-  border-radius: 5px;
-  z-index: 5;
-  box-shadow: 0 0 0 5px rgba(184, 90, 42, 0.18),
-    0 0 22px rgba(184, 90, 42, 0.4);
+  font-size: 5.3px;
+  letter-spacing: 0.25px;
+  fill: rgba(234, 231, 221, 0.55);
+}
+
+/* ES Index pill — sits at the trunk's right end. Soft copper glow via
+ * SVG filter (no box-shadow equivalent in SVG). */
+.art-pipe .tunnel-out-bg {
+  fill: var(--color-copper);
+  filter: drop-shadow(0 0 6px rgba(91, 122, 82, 0.55));
+}
+.art-pipe .tunnel-out-label {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.6px;
+  fill: var(--color-cream);
+}
+
+/* Bottom stat line — left side is muted cream, right side ("→ INDEX")
+ * picks up the copper accent. */
+.art-pipe .stat-line {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.8px;
+  fill: rgba(234, 231, 221, 0.45);
+}
+.art-pipe .stat-line-right {
+  fill: var(--color-copper);
 }
 .art-pipe .feed {
-  stroke: rgba(239, 232, 218, 0.22);
+  /* `stroke` is set inline per-feed via a linearGradient (see PipelineArt's
+   * `<defs>`) so each feed fades from its source brand color to the unified
+   * orange at the convergence point. Don't re-declare stroke here — class
+   * specificity (0,2,0) beats SVG presentation attributes (0,0,0), so a
+   * static stroke here would clobber the gradient. */
   stroke-width: 1.2;
   fill: none;
 }
 .art-pipe .ring {
-  stroke: rgba(184, 90, 42, 0.55);
+  stroke: rgba(91, 122, 82, 0.55);
   fill: none;
 }
 .art-pipe .ring.r1 {
@@ -578,23 +586,242 @@ body::before {
   animation: ringPulse 2.6s ease-in-out 0.8s infinite;
 }
 .art-pipe .trunk {
-  stroke: var(--color-copper);
-  stroke-width: 2;
+  /* Unified muted orange — the post-convergence pipe reads as one
+   * homogenized stream regardless of which source the data came from.
+   * Stroke width matches `.feed` (1.2) so the four upstream lines and the
+   * single downstream line read as the same pipe, just merged. */
+  stroke: #d4884d;
+  stroke-width: 1.2;
   fill: none;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(184, 90, 42, 0.5));
+  filter: drop-shadow(0 0 4px rgba(212, 136, 77, 0.45));
 }
+/* Signal particles. Each source feed carries its own brand-flavored color so
+ * the four streams read as clearly distinct upstream. After they pass
+ * through the convergence rings, the single trunk pipe and its particles
+ * switch to a unified orange to visually convey that the heterogeneous data
+ * has been normalized into one stream. The source pill dots below mirror
+ * these fills via the same class names. */
 .art-pipe .signal {
-  fill: var(--color-copper);
-  filter: drop-shadow(0 0 6px rgba(184, 90, 42, 0.9));
+  /* Twitter — light teal blue. */
+  fill: #5bc8de;
+  filter: drop-shadow(0 0 6px rgba(91, 200, 222, 0.8));
 }
 .art-pipe .signal.warm {
-  fill: #e08a4a;
+  /* Facebook — deeper brand blue. */
+  fill: #4a6baa;
+  filter: drop-shadow(0 0 6px rgba(74, 107, 170, 0.8));
 }
 .art-pipe .signal.dim {
-  fill: #d9a23a;
+  /* News RSS — red. */
+  fill: #d5483a;
+  filter: drop-shadow(0 0 6px rgba(213, 72, 58, 0.75));
 }
 .art-pipe .signal.moss {
-  fill: var(--color-moss);
-  filter: drop-shadow(0 0 5px rgba(90, 109, 58, 0.7));
+  /* Email — purple. */
+  fill: #b478e8;
+  filter: drop-shadow(0 0 6px rgba(180, 120, 232, 0.75));
+}
+/* Trunk-particle styles previously lived here as `.signal.trunk`. They're
+ * gone: each source particle now travels its own combined path (feed +
+ * trunk) and fades its `fill` via SMIL `<animate>` to the unified orange
+ * around the convergence point — no separate trunk particles needed. */
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * Palette expansion — distributes the c2 (terracotta) and c3 (mustard)
+ * accents across the page so it doesn't read as a single-accent design.
+ *
+ * Rules of thumb baked into this block:
+ *   - Hero stats alternate: c1, c2, c3, c2.
+ *   - Career section adopts c2 (eyebrow + title italic + company name).
+ *   - Stack section adopts c3.
+ *   - Selected Work: each project owns one accent — Urbanstems → c1,
+ *     Tracker → c2, Pipeline → c3. The accent flows into the card tag, the
+ *     case-study panel labels/italic/cu values, the project's own art
+ *     (Tracker live row / Pipeline signal.warm).
+ *   - Per-card tech chips alternate c1/c2/c3 on a 3n rhythm.
+ *   - Footer hover and marquee separators pick up c2 for surface contrast.
+ *
+ * Lives at the bottom of globals so its selectors win against the base
+ * `.art-cms` / `.art-pipe` rules above without `!important`.
+ * ───────────────────────────────────────────────────────────────────────── */
+
+/* Hero stat highlights distribute c1/c2/c3 instead of all c1. */
+.hero-stats .hero-stat:nth-child(2) .v .cu {
+  color: var(--color-c2);
+}
+.hero-stats .hero-stat:nth-child(3) .v .cu {
+  color: var(--color-c3);
+}
+.hero-stats .hero-stat:nth-child(4) .v .cu {
+  color: var(--color-c2);
+}
+
+/* About badge role label → c2. */
+.about-badge .r {
+  color: var(--color-c2);
+}
+
+/* Per-project card tag accents (number + hairline). */
+#slot-tracker .work-art .tag .n {
+  color: var(--color-c2);
+}
+#slot-tracker .work-art .tag .line {
+  background: var(--color-c2);
+  opacity: 0.75;
+}
+#slot-pipeline .work-art .tag .n {
+  color: var(--color-c3);
+}
+#slot-pipeline .work-art .tag .line {
+  background: var(--color-c3);
+  opacity: 0.75;
+}
+
+/* Third hero side chip ("moss" slot) takes c3 instead of moss. */
+.hchip .d.ms {
+  background: var(--color-c3);
+  box-shadow: 0 0 0 3px rgba(197, 160, 53, 0.22);
+}
+
+/* Tech chips alternate every 3rd / every 3n+2 to give the chip row a rhythm. */
+.work-body .tech-chips .tch:nth-child(3n + 2) {
+  border-color: rgba(194, 104, 65, 0.4);
+  color: var(--color-c2);
+}
+.work-body .tech-chips .tch:nth-child(3n + 2):hover {
+  background: var(--color-c2);
+  color: var(--color-cream);
+  border-color: transparent;
+}
+.work-body .tech-chips .tch:nth-child(3n) {
+  border-color: rgba(197, 160, 53, 0.4);
+  color: var(--color-c3);
+}
+.work-body .tech-chips .tch:nth-child(3n):hover {
+  background: var(--color-c3);
+  color: var(--color-cream);
+  border-color: transparent;
+}
+
+/* Career section adopts c2. */
+#career .section-title .it,
+#career .section-eyebrow {
+  color: var(--color-c2);
+}
+#career .section-eyebrow .line {
+  background: var(--color-c2);
+}
+#career .exp-co {
+  color: var(--color-c2);
+}
+#career .exp-item:nth-child(2n):hover .exp-badge {
+  background: var(--color-c3);
+  border-color: var(--color-c3);
+}
+
+/* Stack section adopts c3. */
+#stack .section-title .it,
+#stack .section-eyebrow {
+  color: var(--color-c3);
+}
+#stack .section-eyebrow .line {
+  background: var(--color-c3);
+}
+
+/* Footer link hover and marquee separator rhythm. */
+.footer-link:hover {
+  color: var(--color-c2);
+  border-color: var(--color-c2);
+}
+.footer-link:hover .arr {
+  color: var(--color-c2);
+}
+.hero-floor-marquee .marquee-track .marquee-sep:nth-of-type(3n + 2) {
+  color: var(--color-c2);
+}
+.hero-floor-marquee .marquee-track .marquee-sep:nth-of-type(3n) {
+  color: var(--color-c3);
+}
+
+/* Case study stack chips alternate c1/c2/c3 then default outline. */
+.case-stack .chip:nth-child(2) {
+  background: var(--color-c2);
+  color: var(--color-cream);
+  border-color: transparent;
+}
+.case-stack .chip:nth-child(3) {
+  background: var(--color-c3);
+  color: var(--color-cream);
+  border-color: transparent;
+}
+
+/* Per-project case panel accents — the panel inherits its owning slot's
+ * accent so the case study feels like a deeper read of that one project. */
+#slot-tracker .case-num,
+#slot-tracker .case-section .lbl {
+  color: var(--color-c2);
+}
+#slot-tracker .case-num .line,
+#slot-tracker .case-section .lbl .line {
+  background: var(--color-c2);
+}
+#slot-tracker .case-panel h3 .it {
+  color: var(--color-c2);
+}
+#slot-tracker .case-panel dd.cu {
+  color: var(--color-c2);
+}
+
+#slot-pipeline .case-num,
+#slot-pipeline .case-section .lbl {
+  color: var(--color-c3);
+}
+#slot-pipeline .case-num .line,
+#slot-pipeline .case-section .lbl .line {
+  background: var(--color-c3);
+}
+#slot-pipeline .case-panel h3 .it {
+  color: var(--color-c3);
+}
+#slot-pipeline .case-panel dd.cu {
+  color: var(--color-c3);
+}
+
+/* Pipeline visualization signals are NOT recolored by palette-expand —
+ * they own their own per-source brand palette (teal / dark-blue / red /
+ * yellow → unified orange trunk) declared in the base `.art-pipe .signal*`
+ * rules above. Re-asserting palette-expand colors here would smash that
+ * story, so this section is intentionally empty. */
+
+/* CMS dashboard adopts c2 because the Tracker card is the c2 project. */
+.art-cms .cms-side .nv.act {
+  background: rgba(194, 104, 65, 0.12);
+  border-left-color: var(--color-c2);
+}
+.art-cms .cms-side .nv.act .ic {
+  background: var(--color-c2);
+}
+.art-cms .cms-h .ac .bt.p {
+  background: var(--color-c2);
+}
+.art-cms .stat .vl .cu {
+  color: var(--color-c2);
+}
+.art-cms .cms-top .cr .cu {
+  color: var(--color-c2);
+}
+.art-cms .cms-side .logo .lg {
+  background: var(--color-c2);
+  box-shadow: 0 0 5px var(--color-c2);
+}
+.art-cms .table .tr.live {
+  background: rgba(194, 104, 65, 0.12);
+  border-color: rgba(194, 104, 65, 0.3);
+}
+.art-cms .table .tr.live .st {
+  color: var(--color-c2);
+}
+.art-cms .table .tr .nm .b.cu {
+  background: var(--color-c2);
 }

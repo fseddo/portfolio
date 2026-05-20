@@ -8,15 +8,21 @@ type EyebrowProps = {
   className?: string;
 };
 
+/**
+ * Editorial eyebrow — copper hairline + mono caps. Renders the hairline as
+ * an explicit `<span className="line">` (not `::before`) so the palette-
+ * expand block in globals.css can recolor it inside `#career` / `#stack`
+ * without specificity gymnastics.
+ */
 export const Eyebrow = ({ children, dim, className }: EyebrowProps) => (
   <div
     className={cx(
-      'flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.18em]',
+      'section-eyebrow flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.18em]',
       dim ? 'text-copper-dim' : 'text-copper',
       className
     )}
   >
-    <span className='inline-block h-px w-7 bg-copper' />
+    <span className='line inline-block h-px w-7 bg-copper' />
     {children}
   </div>
 );

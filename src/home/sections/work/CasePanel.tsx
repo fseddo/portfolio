@@ -13,9 +13,9 @@ type CasePanelProps = {
 };
 
 const Section = ({ section }: { section: CaseSection }) => (
-  <div className='mb-[18px] last:mb-0'>
-    <div className='mb-2 flex items-center gap-[10px] font-mono text-[9.5px] uppercase tracking-[0.16em] text-copper'>
-      <span className='inline-block h-px w-[18px] bg-copper' />
+  <div className='case-section mb-[18px] last:mb-0'>
+    <div className='lbl mb-2 flex items-center gap-[10px] font-mono text-[9.5px] uppercase tracking-[0.16em] text-copper'>
+      <span className='line inline-block h-px w-[18px] bg-copper' />
       {section.label}
     </div>
     {section.headingHtml && (
@@ -47,7 +47,7 @@ const Section = ({ section }: { section: CaseSection }) => (
         {section.metrics.map((m, i) => (
           <div
             key={i}
-            className='rounded-[5px] border border-line bg-[rgba(255,252,247,0.5)] p-[12px_14px]'
+            className='rounded-[5px] border border-line bg-[rgba(248,245,236,0.5)] p-[12px_14px]'
           >
             <div
               className='mb-1 font-sans text-[22px] font-light leading-none tracking-[-0.02em] text-ink'
@@ -61,15 +61,15 @@ const Section = ({ section }: { section: CaseSection }) => (
       </div>
     )}
     {section.stack && (
-      <div className='mt-2 flex flex-wrap gap-[5px]'>
+      <div className='case-stack mt-2 flex flex-wrap gap-[5px]'>
         {section.stack.map((chip, i) => (
           <span
             key={chip}
             className={cx(
-              'rounded-pill border px-[9px] py-[3px] font-mono text-[9.5px] tracking-[0.04em]',
+              'chip rounded-pill border px-[9px] py-[3px] font-mono text-[9.5px] tracking-[0.04em]',
               i === 0
                 ? 'border-transparent bg-copper text-cream'
-                : 'border-line bg-[rgba(255,252,247,0.6)] text-ink'
+                : 'border-line bg-[rgba(248,245,236,0.6)] text-ink'
             )}
           >
             {chip}
@@ -87,7 +87,7 @@ export const CasePanel = ({ projectId, wide, open, onClose }: CasePanelProps) =>
   return (
     <div
       className={cx(
-        'relative flex flex-col overflow-x-hidden rounded-[14px] border border-line bg-cream-3 shadow-[0_30px_60px_-25px_rgba(27,20,12,0.18)] transition-[opacity,transform] duration-[450ms] ease-soft-out',
+        'case-panel relative flex flex-col overflow-x-hidden rounded-[14px] border border-line bg-cream-3 shadow-[0_30px_60px_-25px_rgba(27,32,29,0.18)] transition-[opacity,transform] duration-[450ms] ease-soft-out',
         wide ? 'p-[30px_34px]' : 'p-[26px_28px]',
         open
           ? 'pointer-events-auto translate-y-0 opacity-100'
@@ -103,8 +103,10 @@ export const CasePanel = ({ projectId, wide, open, onClose }: CasePanelProps) =>
       </button>
 
       <div>
-        <div className='mb-[10px] flex items-center gap-[10px] font-mono text-[10px] uppercase tracking-[0.18em] text-copper'>
-          <span className='inline-block h-px w-[22px] bg-copper' />№ {c.number} / Case study
+        {/* `.case-num` palette-expand hook — text + `.line` recolored per
+            owning slot (Tracker → c2, Pipeline → c3). */}
+        <div className='case-num mb-[10px] flex items-center gap-[10px] font-mono text-[10px] uppercase tracking-[0.18em] text-copper'>
+          <span className='line inline-block h-px w-[22px] bg-copper' />№ {c.number} / Case study
         </div>
         <h3
           className='mb-[10px] font-sans font-light leading-none tracking-[-0.02em] text-ink text-[clamp(26px,2.6vw,32px)]'
@@ -113,11 +115,15 @@ export const CasePanel = ({ projectId, wide, open, onClose }: CasePanelProps) =>
         <div className='mb-[18px] max-w-[48ch] font-serif text-base italic leading-[1.4] text-ink-mid'>
           {c.sub}
         </div>
-        <dl className='mb-[18px] grid grid-cols-[auto_1fr] gap-x-4 gap-y-[6px] border-y border-[rgba(27,20,12,0.18)] py-[14px] font-mono text-[10px] uppercase tracking-[0.06em]'>
+        <dl className='mb-[18px] grid grid-cols-[auto_1fr] gap-x-4 gap-y-[6px] border-y border-[rgba(27,32,29,0.18)] py-[14px] font-mono text-[10px] uppercase tracking-[0.06em]'>
           {c.meta.map(([k, v, accent]) => (
             <div key={k} className='contents'>
               <dt className='text-ink-light'>{k}</dt>
-              <dd className={accent === 'cu' ? 'font-medium text-copper' : 'text-ink'}>
+              <dd
+                className={
+                  accent === 'cu' ? 'cu font-medium text-copper' : 'text-ink'
+                }
+              >
                 {v}
               </dd>
             </div>

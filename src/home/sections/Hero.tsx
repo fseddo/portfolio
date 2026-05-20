@@ -9,10 +9,11 @@ import {
 } from '../data/portfolio';
 import { HeroCanvas } from './HeroCanvas';
 
-const DOT_BG: Record<HeroChip['dot'], string> = {
-  green: 'bg-[#3F8A4A] shadow-[0_0_0_3px_rgba(63,138,74,0.2)]',
-  copper: 'bg-copper shadow-[0_0_0_3px_rgba(184,90,42,0.2)]',
-  moss: 'bg-moss shadow-[0_0_0_3px_rgba(90,109,58,0.22)]',
+/** Maps the abstract dot color in our data to the CSS class globals exposes. */
+const DOT_CLASS: Record<HeroChip['dot'], 'c2' | 'cu' | 'ms'> = {
+  c2: 'c2',
+  copper: 'cu',
+  moss: 'ms',
 };
 
 const ALIGN: Record<NonNullable<HeroChip['align']>, string> = {
@@ -35,19 +36,19 @@ const LinkedInIcon = () => (
 export const Hero = () => (
   <section
     id='hero'
-    className='relative flex min-h-screen items-center overflow-hidden bg-cream text-ink'
+    className='hero relative flex min-h-screen items-center overflow-hidden bg-cream text-ink'
   >
     <HeroCanvas />
 
-    {/* Soft warm veil over the canvas. */}
+    {/* Soft cream veil over the canvas — slightly cool to match the linen palette. */}
     <div
       aria-hidden='true'
-      className='pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(ellipse_at_22%_32%,rgba(239,232,218,0.45)_0%,rgba(239,232,218,0)_55%),linear-gradient(180deg,transparent_0%,transparent_72%,rgba(229,220,201,0.55)_100%)]'
+      className='pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(ellipse_at_22%_32%,rgba(234,231,221,0.45)_0%,rgba(234,231,221,0)_55%),linear-gradient(180deg,transparent_0%,transparent_72%,rgba(220,216,203,0.55)_100%)]'
     />
     {/* Inner hero grain. */}
     <div
       aria-hidden='true'
-      className='pointer-events-none absolute inset-0 z-3 opacity-45 bg-[radial-gradient(circle_at_1px_1px,rgba(27,20,12,0.04)_1px,transparent_0)] bg-[length:4px_4px]'
+      className='pointer-events-none absolute inset-0 z-3 opacity-45 bg-[radial-gradient(circle_at_1px_1px,rgba(27,32,29,0.04)_1px,transparent_0)] bg-[length:4px_4px]'
     />
 
     <div className='relative z-5 mx-auto grid w-full max-w-360 grid-cols-[1fr_320px] items-center gap-16 px-10 pt-30 pb-[110px] max-[900px]:grid-cols-1 max-[900px]:gap-8 max-[900px]:px-[22px] max-[900px]:pt-25 max-[900px]:pb-[90px]'>
@@ -78,7 +79,7 @@ export const Hero = () => (
             target='_blank'
             rel='noreferrer'
             aria-label='GitHub'
-            className='inline-flex items-center gap-2 rounded-pill border border-line bg-[rgba(255,252,247,0.55)] px-5 py-[11px] font-mono text-[11.5px] tracking-[0.08em] text-ink backdrop-blur-md transition-all duration-250 hover:border-ink hover:bg-white'
+            className='inline-flex items-center gap-2 rounded-pill border border-line bg-[rgba(248,245,236,0.55)] px-5 py-[11px] font-mono text-[11.5px] tracking-[0.08em] text-ink backdrop-blur-md transition-all duration-250 hover:border-ink hover:bg-white'
           >
             <GithubIcon />
             GitHub
@@ -88,26 +89,28 @@ export const Hero = () => (
             target='_blank'
             rel='noreferrer'
             aria-label='LinkedIn'
-            className='inline-flex items-center gap-2 rounded-pill border border-line bg-[rgba(255,252,247,0.55)] px-5 py-[11px] font-mono text-[11.5px] tracking-[0.08em] text-ink backdrop-blur-md transition-all duration-250 hover:border-ink hover:bg-white'
+            className='inline-flex items-center gap-2 rounded-pill border border-line bg-[rgba(248,245,236,0.55)] px-5 py-[11px] font-mono text-[11.5px] tracking-[0.08em] text-ink backdrop-blur-md transition-all duration-250 hover:border-ink hover:bg-white'
           >
             <LinkedInIcon />
             LinkedIn
           </a>
         </div>
 
-        <div className='flex flex-wrap border-t border-line pt-6'>
+        <div className='hero-stats flex flex-wrap border-t border-line pt-6'>
           {HERO_STATS.map((stat, i) => (
             <div
               key={stat.label}
               className={cx(
-                'pr-9',
+                'hero-stat pr-9',
                 i < HERO_STATS.length - 1 && 'mr-9 border-r border-line-2',
                 'max-[900px]:mr-5 max-[900px]:mb-[14px] max-[900px]:pr-5'
               )}
             >
-              <div className='mb-[5px] font-sans text-[28px] font-light leading-none tracking-tight text-ink'>
+              {/* `.v` + `.cu` are palette hooks — `.cu` gets recolored per
+                  hero-stat nth-child by the palette-expand block in globals. */}
+              <div className='v mb-[5px] font-sans text-[28px] font-light leading-none tracking-tight text-ink'>
                 {stat.value}
-                <span className='text-copper'>{stat.unit}</span>
+                <span className='cu'>{stat.unit}</span>
               </div>
               <div className='font-mono text-[9.5px] uppercase tracking-[0.12em] text-ink-light'>
                 {stat.label}
@@ -117,7 +120,7 @@ export const Hero = () => (
         </div>
       </div>
 
-      <div className='flex flex-col gap-3 max-[900px]:flex-row max-[900px]:flex-wrap'>
+      <div className='hero-side flex flex-col gap-3 max-[900px]:flex-row max-[900px]:flex-wrap'>
         {HERO_CHIPS.map((chip) => (
           <div
             key={chip.heading}
@@ -126,16 +129,11 @@ export const Hero = () => (
               width: `${chip.widthPct}%`,
             }}
             className={cx(
-              'flex items-center gap-[11px] rounded-[13px] border border-line bg-[rgba(255,252,247,0.7)] p-4 shadow-[0_8px_24px_-12px_rgba(27,20,12,0.16)] backdrop-blur-[14px] backdrop-saturate-[140%] will-change-transform',
+              'hchip flex items-center gap-[11px] rounded-[13px] border border-line bg-[rgba(248,245,236,0.7)] p-4 shadow-[0_8px_24px_-12px_rgba(27,32,29,0.16)] backdrop-blur-[14px] backdrop-saturate-[140%] will-change-transform',
               chip.align && ALIGN[chip.align]
             )}
           >
-            <span
-              className={cx(
-                'h-[9px] w-[9px] shrink-0 rounded-full',
-                DOT_BG[chip.dot]
-              )}
-            />
+            <span className={cx('d', DOT_CLASS[chip.dot])} />
             <div className='flex min-w-0 flex-1 flex-col gap-[2px]'>
               <span className='text-[13.5px] font-medium leading-tight tracking-[-0.005em] text-ink'>
                 {chip.heading}
@@ -149,23 +147,25 @@ export const Hero = () => (
       </div>
     </div>
 
-    {/* Floor marquee — pinned to bottom of the hero, full bleed. */}
-    <div className='absolute inset-x-0 bottom-0 z-5 overflow-hidden border-t border-line bg-cream-3 py-[11px]'>
+    {/* Floor marquee. Items and separators are flat siblings inside the
+        track so `.marquee-sep:nth-of-type(3n)` lands cleanly in palette-
+        expand and the separator color can rotate c1/c2/c3. */}
+    <div className='hero-floor-marquee absolute inset-x-0 bottom-0 z-5 overflow-hidden border-t border-line bg-cream-3 py-[11px]'>
       <div
-        className='inline-flex whitespace-nowrap font-mono text-[10.5px] uppercase tracking-[0.18em]'
+        className='marquee-track inline-flex whitespace-nowrap font-mono text-[10.5px] uppercase tracking-[0.18em]'
         style={{ animation: 'marquee 38s linear infinite' }}
       >
         {/* Duplicate the items twice so translateX(-50%) wraps seamlessly. */}
-        {[0, 1].map((cycle) => (
-          <div key={cycle} className='inline-flex'>
-            {MARQUEE_ITEMS.map((item) => (
-              <span key={`${cycle}-${item}`} className='inline-flex'>
-                <span className='px-6'>{item}</span>
-                <span className='text-copper/60'>/</span>
-              </span>
-            ))}
-          </div>
-        ))}
+        {[0, 1].flatMap((cycle) =>
+          MARQUEE_ITEMS.flatMap((item) => [
+            <span key={`${cycle}-${item}-i`} className='marquee-item px-6'>
+              {item}
+            </span>,
+            <span key={`${cycle}-${item}-s`} className='marquee-sep text-copper/60'>
+              /
+            </span>,
+          ])
+        )}
       </div>
     </div>
   </section>
