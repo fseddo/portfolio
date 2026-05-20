@@ -182,279 +182,374 @@ body::before {
  * harmonize with the linen page rather than reading as pure black.
  * ───────────────────────────────────────────────────────────────────────── */
 
-/* Tracker — fake legislative-tracker dashboard. */
+/* Tracker — SVG mockup of a legislative-tracker dashboard. Single viewBox
+ * so the whole composition scales as a unit (same pattern as `.art-pipe`).
+ * Top inset clears the slot tag ("02 · CMS REBUILD") so it sits in the dark
+ * frame above the dashboard chrome. Side/bottom inset is the safe zone for
+ * the 1.03× hover zoom — without it the dashboard edges crop. */
 .art-cms {
   position: absolute;
-  inset: 0;
+  inset: 32px 8px 8px 8px;
+  border-radius: 5px;
   background: #141a16;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: 70px 1fr;
+}
+.art-cms svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Surfaces */
+.art-cms .cms-side-bg {
+  fill: #0e1411;
+}
+.art-cms .cms-top-bg {
+  fill: #101714;
+}
+.art-cms .cms-divider {
+  stroke: rgba(234, 231, 221, 0.07);
+  stroke-width: 1;
+}
+
+/* Sidebar */
+.art-cms .cms-brand-dot {
+  fill: var(--color-copper);
+  filter: drop-shadow(0 0 3px var(--color-copper));
+}
+.art-cms .cms-nv-t {
   font-family: var(--font-mono);
-}
-.art-cms .cms-side {
-  background: #0e1411;
-  border-right: 1px solid rgba(234, 231, 221, 0.07);
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.art-cms .cms-side .logo {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0 11px 10px;
-  font-family: var(--font-sans);
-  font-size: 9.5px;
-  font-weight: 500;
-  color: var(--color-cream);
-  letter-spacing: 0.04em;
-  border-bottom: 1px solid rgba(234, 231, 221, 0.06);
-  margin-bottom: 6px;
-}
-.art-cms .cms-side .logo .lg {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--color-copper);
-  box-shadow: 0 0 5px var(--color-copper);
-  flex-shrink: 0;
-}
-.art-cms .cms-side .nv {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 11px;
   font-size: 9px;
-  color: rgba(234, 231, 221, 0.5);
-  letter-spacing: 0.05em;
-  border-left: 2px solid transparent;
-}
-.art-cms .cms-side .nv .ic {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  background: rgba(234, 231, 221, 0.18);
-  flex-shrink: 0;
-}
-.art-cms .cms-side .nv.act {
-  color: var(--color-cream);
-  background: rgba(91, 122, 82, 0.1);
-  border-left-color: var(--color-copper);
-}
-.art-cms .cms-side .nv.act .ic {
-  background: var(--color-copper);
-}
-.art-cms .cms-main {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.art-cms .cms-top {
-  height: 26px;
-  background: #101714;
-  border-bottom: 1px solid rgba(234, 231, 221, 0.07);
-  display: flex;
-  align-items: center;
-  padding: 0 11px;
-  gap: 7px;
-  flex-shrink: 0;
-}
-.art-cms .cms-top .cr {
-  font-size: 8.5px;
-  color: rgba(234, 231, 221, 0.5);
   letter-spacing: 0.06em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
+  fill: rgba(234, 231, 221, 0.5);
 }
-.art-cms .cms-top .cr .sep {
-  color: rgba(234, 231, 221, 0.25);
-  margin: 0 5px;
+.art-cms .cms-nv.act .cms-nv-t {
+  fill: var(--color-cream);
 }
-.art-cms .cms-top .sr {
-  margin-left: auto;
-  font-size: 8.5px;
-  color: rgba(234, 231, 221, 0.32);
-  background: rgba(234, 231, 221, 0.04);
-  border: 1px solid rgba(234, 231, 221, 0.07);
-  padding: 2px 8px;
-  border-radius: 99px;
-  flex-shrink: 0;
+.art-cms .cms-nv-bg {
+  fill: rgba(91, 122, 82, 0.1);
 }
-.art-cms .cms-top .us {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-copper), #3f5938);
-  flex-shrink: 0;
+.art-cms .cms-nv-bar {
+  fill: var(--color-copper);
 }
-.art-cms .cms-body {
-  flex: 1;
-  padding: 11px;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  min-height: 0;
-  min-width: 0;
+
+/* Top bar: avatar + search + buttons */
+.art-cms .cms-avatar {
+  fill: var(--color-copper);
 }
-.art-cms .cms-h {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-.art-cms .cms-h .tt {
+.art-cms .cms-avatar-t {
   font-family: var(--font-sans);
-  font-size: 13px;
-  color: var(--color-cream);
-  font-weight: 400;
-  letter-spacing: -0.005em;
-  white-space: nowrap;
+  font-size: 9px;
+  font-weight: 600;
+  fill: var(--color-cream);
+  text-anchor: middle;
+  /* Note: no `dominant-baseline` — vertical centering done by hand-tuning
+   * the text's `y` attribute (cy + ~0.35 × font-size). Browsers disagree on
+   * `dominant-baseline: middle` for inline-formatted SVG text. */
 }
-.art-cms .cms-h .tt .it {
+.art-cms .cms-nv-sep {
+  stroke: rgba(234, 231, 221, 0.07);
+  stroke-width: 1;
+}
+.art-cms .cms-search-bg {
+  fill: rgba(234, 231, 221, 0.05);
+  stroke: rgba(234, 231, 221, 0.1);
+  stroke-width: 1;
+}
+.art-cms .cms-search-i {
+  fill: none;
+  stroke: rgba(234, 231, 221, 0.5);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+.art-cms .cms-search-p {
+  font-family: var(--font-sans);
+  font-size: 8.5px;
+  fill: rgba(234, 231, 221, 0.4);
+  letter-spacing: 0.01em;
+}
+.art-cms .cms-btn-bg {
+  fill: rgba(234, 231, 221, 0.05);
+  stroke: rgba(234, 231, 221, 0.1);
+  stroke-width: 1;
+}
+.art-cms .cms-btn-i {
+  stroke: rgba(234, 231, 221, 0.75);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+.art-cms .cms-btn-t {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  fill: rgba(234, 231, 221, 0.85);
+  letter-spacing: 0.04em;
+}
+.art-cms .cms-btn-p-bg {
+  fill: var(--color-copper);
+}
+.art-cms .cms-btn-p-t {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  fill: #fff;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+
+/* Section title + filter chips. Using mono (JetBrains) for the title since
+ * the rest of the dashboard chrome — buttons, labels, chips — is already
+ * mono; serif italic for a section header would clash with the CMS-product
+ * voice. Slightly larger than chrome labels so it still reads as a heading. */
+.art-cms .cms-h-t {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  fill: var(--color-cream);
+  letter-spacing: -0.01em;
+}
+.art-cms .cms-chip-bg {
+  fill: rgba(91, 122, 82, 0.14);
+  stroke: rgba(91, 122, 82, 0.32);
+  stroke-width: 1;
+}
+.art-cms .cms-chip-k {
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.08em;
+  fill: rgba(234, 231, 221, 0.5);
+}
+.art-cms .cms-chip-v {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  fill: var(--color-copper);
+}
+.art-cms .cms-chip-x-bg {
+  fill: rgba(234, 231, 221, 0.08);
+}
+.art-cms .cms-chip-x {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  fill: rgba(234, 231, 221, 0.6);
+}
+
+/* Search row — total bill count */
+.art-cms .cms-count {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.04em;
+  fill: rgba(234, 231, 221, 0.5);
+}
+.art-cms .cms-count .cms-count-n {
+  fill: var(--color-cream);
+  font-weight: 500;
+}
+
+/* Bill list */
+.art-cms .cms-table-bg {
+  fill: rgba(234, 231, 221, 0.025);
+  stroke: rgba(234, 231, 221, 0.07);
+  stroke-width: 1;
+}
+.art-cms .cms-th {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.14em;
+  fill: rgba(234, 231, 221, 0.4);
+}
+.art-cms .cms-th-rule {
+  stroke: rgba(234, 231, 221, 0.07);
+  stroke-width: 1;
+}
+.art-cms .cms-tr-bg {
+  fill: rgba(91, 122, 82, 0.12);
+  stroke: rgba(91, 122, 82, 0.3);
+  stroke-width: 1;
+}
+.art-cms .cms-tr-dot {
+  fill: var(--color-moss);
+}
+.art-cms .cms-tr-dot.committee {
+  fill: var(--color-copper);
+}
+.art-cms .cms-tr-dot.pending {
+  fill: #c99935;
+}
+.art-cms .cms-tr-dot.stalled {
+  fill: #b14c3f;
+}
+.art-cms .cms-tr-nm {
+  font-family: var(--font-sans);
+  font-size: 8.5px;
+  fill: rgba(234, 231, 221, 0.88);
+}
+.art-cms .cms-tr-id {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: rgba(234, 231, 221, 0.75);
+}
+.art-cms .cms-tr-st {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: var(--color-moss);
+  letter-spacing: 0.02em;
+}
+.art-cms .cms-tr-st.committee {
+  fill: var(--color-copper);
+}
+.art-cms .cms-tr-st.pending {
+  fill: #c99935;
+}
+.art-cms .cms-tr-st.stalled {
+  fill: #b14c3f;
+}
+.art-cms .cms-tr-wn {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: rgba(234, 231, 221, 0.4);
+}
+
+/* Scrollbar — decorative */
+.art-cms .cms-scroll-track {
+  fill: rgba(234, 231, 221, 0.06);
+}
+.art-cms .cms-scroll-thumb {
+  fill: rgba(234, 231, 221, 0.4);
+}
+
+/* Resize bar */
+.art-cms .cms-resz-bg {
+  fill: rgba(234, 231, 221, 0.04);
+}
+.art-cms .cms-resz-dot {
+  fill: rgba(234, 231, 221, 0.5);
+}
+
+/* Detail pane */
+.art-cms .cms-detail-bg {
+  fill: rgba(91, 122, 82, 0.06);
+  stroke: rgba(91, 122, 82, 0.22);
+  stroke-width: 1;
+}
+.art-cms .cms-dt-id {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  fill: var(--color-copper);
+}
+.art-cms .cms-dt-t {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  fill: var(--color-cream);
+  letter-spacing: -0.005em;
+}
+.art-cms .cms-dt-t .it {
   font-family: var(--font-serif);
   font-style: italic;
+  fill: var(--color-copper);
 }
-.art-cms .cms-h .ac {
-  display: flex;
-  gap: 4px;
-  font-size: 8.5px;
-  color: rgba(234, 231, 221, 0.7);
-  flex-shrink: 0;
-}
-.art-cms .cms-h .ac .bt {
-  padding: 3px 8px;
-  background: rgba(234, 231, 221, 0.05);
-  border: 1px solid rgba(234, 231, 221, 0.1);
-  border-radius: 4px;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-.art-cms .cms-h .ac .bt.p {
-  background: var(--color-copper);
-  color: #fff;
-  border-color: transparent;
-}
-.art-cms .stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-}
-.art-cms .stat {
-  background: rgba(234, 231, 221, 0.04);
-  border: 1px solid rgba(234, 231, 221, 0.07);
-  border-radius: 4px;
-  padding: 5px 8px;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 5px;
-  min-width: 0;
-}
-.art-cms .stat .lb {
-  font-size: 8px;
-  color: rgba(234, 231, 221, 0.5);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.art-cms .stat .vl {
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--color-cream);
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-.art-cms .table {
-  background: rgba(234, 231, 221, 0.025);
-  border: 1px solid rgba(234, 231, 221, 0.07);
-  border-radius: 4px;
-  padding: 5px 9px;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  overflow: hidden;
-  min-height: 0;
-  flex: 1;
-}
-.art-cms .table .th {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 38px;
-  gap: 7px;
-  padding: 0 4px 4px;
-  border-bottom: 1px solid rgba(234, 231, 221, 0.07);
-  font-size: 7.5px;
+.art-cms .cms-dt-upd {
+  font-family: var(--font-mono);
+  font-size: 7px;
   letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(234, 231, 221, 0.4);
+  fill: rgba(234, 231, 221, 0.35);
 }
-.art-cms .table .tr {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 38px;
-  gap: 7px;
-  padding: 3.5px 4px;
-  align-items: center;
-  border-bottom: 1px dashed rgba(234, 231, 221, 0.04);
+.art-cms .cms-dt-sep {
+  stroke: rgba(234, 231, 221, 0.15);
+  stroke-width: 1;
 }
-.art-cms .table .tr:last-child {
-  border-bottom: none;
-}
-.art-cms .table .tr.live {
-  background: rgba(91, 122, 82, 0.12);
-  border-radius: 3px;
-  border: 1px solid rgba(91, 122, 82, 0.3);
-}
-.art-cms .table .tr .nm {
+.art-cms .cms-dt-sub {
   font-family: var(--font-sans);
-  font-size: 9.5px;
-  color: rgba(234, 231, 221, 0.85);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 8.5px;
+  fill: rgba(234, 231, 221, 0.6);
 }
-.art-cms .table .tr .nm .b {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--color-moss);
-  flex-shrink: 0;
+.art-cms .cms-dt-sub .mu {
+  fill: rgba(234, 231, 221, 0.4);
 }
-.art-cms .table .tr .nm .b.y {
-  background: #c99935;
+
+/* Stepper */
+.art-cms .cms-step-dot {
+  fill: transparent;
+  stroke: rgba(234, 231, 221, 0.25);
+  stroke-width: 1;
 }
-.art-cms .table .tr .nm .b.r {
-  background: #b14c3f;
+.art-cms .cms-step-dot.done {
+  fill: var(--color-moss);
+  stroke: var(--color-moss);
 }
-.art-cms .table .tr .nm .b.cu {
-  background: var(--color-copper);
+.art-cms .cms-step-dot.now {
+  fill: var(--color-copper);
+  stroke: var(--color-copper);
+  filter: drop-shadow(0 0 3px rgba(91, 122, 82, 0.6));
 }
-.art-cms .table .tr .st {
+.art-cms .cms-step-line {
+  stroke: rgba(234, 231, 221, 0.15);
+  stroke-width: 1;
+}
+.art-cms .cms-step-line.done {
+  stroke: var(--color-moss);
+}
+.art-cms .cms-step-lbl {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.14em;
+  fill: rgba(234, 231, 221, 0.4);
+}
+.art-cms .cms-step-lbl.now {
+  fill: var(--color-copper);
+}
+
+/* Detail body — summary, co-sponsors, activity */
+.art-cms .cms-dt-sum {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  fill: rgba(234, 231, 221, 0.65);
+}
+.art-cms .cms-dt-sum .it {
+  font-family: var(--font-serif);
+  font-style: italic;
+  fill: var(--color-copper);
+}
+.art-cms .cms-dt-k {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  fill: rgba(234, 231, 221, 0.4);
+}
+.art-cms .cms-cosp-bg {
+  fill: rgba(234, 231, 221, 0.1);
+  stroke: #141a16;
+  stroke-width: 1.5;
+}
+.art-cms .cms-cosp-bg.first {
+  fill: rgba(91, 122, 82, 0.32);
+}
+.art-cms .cms-cosp-t {
+  font-family: var(--font-mono);
+  font-size: 5.5px;
+  fill: rgba(234, 231, 221, 0.75);
+}
+.art-cms .cms-cosp-more {
+  font-family: var(--font-mono);
   font-size: 8px;
-  color: var(--color-moss);
   letter-spacing: 0.04em;
-  white-space: nowrap;
+  fill: rgba(234, 231, 221, 0.5);
 }
-.art-cms .table .tr .st.y {
-  color: #c99935;
-}
-.art-cms .table .tr .st.r {
-  color: #b14c3f;
-}
-.art-cms .table .tr.live .st {
-  color: var(--color-copper);
-}
-.art-cms .table .tr .wn {
+.art-cms .cms-dt-at {
+  font-family: var(--font-mono);
   font-size: 8px;
-  color: rgba(234, 231, 221, 0.4);
-  text-align: right;
+  fill: var(--color-copper);
+  letter-spacing: 0.04em;
+}
+.art-cms .cms-dt-av {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  fill: rgba(234, 231, 221, 0.8);
+}
+.art-cms .cms-dt-av .mu {
+  fill: rgba(234, 231, 221, 0.4);
 }
 
 /* Pipeline — animated SVG ingest diagram. Everything (labels, pills,
@@ -794,34 +889,61 @@ body::before {
  * rules above. Re-asserting palette-expand colors here would smash that
  * story, so this section is intentionally empty. */
 
-/* CMS dashboard adopts c2 because the Tracker card is the c2 project. */
-.art-cms .cms-side .nv.act {
-  background: rgba(194, 104, 65, 0.12);
-  border-left-color: var(--color-c2);
+/* CMS dashboard adopts c2 because the Tracker card is the c2 project.
+ * SVG version — overrides `fill`/`stroke` instead of `background`/`color`. */
+.art-cms .cms-brand-dot {
+  fill: var(--color-c2);
+  filter: drop-shadow(0 0 3px var(--color-c2));
 }
-.art-cms .cms-side .nv.act .ic {
-  background: var(--color-c2);
+.art-cms .cms-nv.act .cms-nv-bg {
+  fill: rgba(194, 104, 65, 0.12);
 }
-.art-cms .cms-h .ac .bt.p {
-  background: var(--color-c2);
+.art-cms .cms-nv.act .cms-nv-bar {
+  fill: var(--color-c2);
 }
-.art-cms .stat .vl .cu {
-  color: var(--color-c2);
+.art-cms .cms-avatar {
+  fill: var(--color-c2);
 }
-.art-cms .cms-top .cr .cu {
-  color: var(--color-c2);
+.art-cms .cms-btn-p-bg {
+  fill: var(--color-c2);
 }
-.art-cms .cms-side .logo .lg {
-  background: var(--color-c2);
-  box-shadow: 0 0 5px var(--color-c2);
+.art-cms .cms-chip-bg {
+  fill: rgba(194, 104, 65, 0.12);
+  stroke: rgba(194, 104, 65, 0.32);
 }
-.art-cms .table .tr.live {
-  background: rgba(194, 104, 65, 0.12);
-  border-color: rgba(194, 104, 65, 0.3);
+.art-cms .cms-chip-v {
+  fill: var(--color-c2);
 }
-.art-cms .table .tr.live .st {
-  color: var(--color-c2);
+.art-cms .cms-stat-v.cu {
+  fill: var(--color-c2);
 }
-.art-cms .table .tr .nm .b.cu {
-  background: var(--color-c2);
+.art-cms .cms-tr.live .cms-tr-bg {
+  fill: rgba(194, 104, 65, 0.12);
+  stroke: rgba(194, 104, 65, 0.3);
+}
+.art-cms .cms-tr.live .cms-tr-st {
+  fill: var(--color-c2);
+}
+.art-cms .cms-tr-dot.committee,
+.art-cms .cms-tr-st.committee {
+  fill: var(--color-c2);
+}
+.art-cms .cms-detail-bg {
+  fill: rgba(194, 104, 65, 0.07);
+  stroke: rgba(194, 104, 65, 0.28);
+}
+.art-cms .cms-dt-id,
+.art-cms .cms-dt-t .it,
+.art-cms .cms-dt-sum .it,
+.art-cms .cms-dt-at,
+.art-cms .cms-step-lbl.now {
+  fill: var(--color-c2);
+}
+.art-cms .cms-step-dot.now {
+  fill: var(--color-c2);
+  stroke: var(--color-c2);
+  filter: drop-shadow(0 0 3px rgba(194, 104, 65, 0.6));
+}
+.art-cms .cms-cosp-bg.first {
+  fill: rgba(194, 104, 65, 0.32);
 }
