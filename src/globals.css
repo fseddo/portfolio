@@ -9,18 +9,22 @@
   --color-ink-mid: #5c4f40;
   --color-ink-light: #8c7e68;
   --color-line: rgba(27, 20, 12, 0.14);
-  --color-line-2: rgba(27, 20, 12, 0.08);
+  --color-line-2: rgba(27, 20, 12, 0.07);
   --color-copper: #b85a2a;
-  --color-copper-2: #8b3f1a;
+  --color-copper-dim: oklch(72% 0.09 35);
   --color-moss: #5a6d3a;
 
-  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
-  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   --radius-pill: 99px;
 
   --ease-soft-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
@@ -34,31 +38,64 @@ body {
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-cream);
 }
 
 a {
   color: inherit;
+  text-decoration: none;
 }
 
-/* Italic accent — any word that should pop in the editorial style.
- * Switches to the serif italic and tints copper on cream surfaces. */
+/* Page-wide paper grain. Fixed pseudo-element so it doesn't scroll. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(27, 20, 12, 0.04) 1px,
+    transparent 0
+  );
+  background-size: 3px 3px;
+  opacity: 0.55;
+}
+
+/* Italic-serif copper accent. Used inside headings (`<span class="it">…`).
+ * The signature move of the design — preserve everywhere it appears. */
 .it {
   font-family: var(--font-serif);
   font-style: italic;
+  font-weight: 400;
   color: var(--color-copper);
 }
 
-/* Reveal-on-scroll primitive. Elements with .rv start hidden + offset,
- * then animate in when an IntersectionObserver adds .in. Staggered
- * variants (.rv-s/.rv-m/.rv-l) add 80/160/240ms delay. */
+/* Inline copper highlight inside stat values / metric values. Same role as
+ * `.it` but without the italic-serif swap — used inside DM-Sans numerals
+ * where flipping fonts would look wrong (e.g. "2<span class="cu">s</span>"). */
+.cu {
+  color: var(--color-copper);
+}
+
+/* Reveal-on-scroll primitive. Elements with `.rv` start hidden + 24px down;
+ * an IntersectionObserver adds `.in` when 12% visible (see useRevealOnScroll).
+ * Stagger via `.rv-s/.rv-m/.rv-l` (80/160/240ms). */
 .rv {
   opacity: 0;
-  transform: translateY(36px);
+  transform: translateY(24px);
   transition:
-    opacity 900ms var(--ease-soft-out),
-    transform 900ms var(--ease-soft-out);
+    opacity 800ms var(--ease-soft-out),
+    transform 800ms var(--ease-soft-out);
 }
 .rv.in {
   opacity: 1;
@@ -74,29 +111,30 @@ a {
   transition-delay: 240ms;
 }
 
-/* Hero scroll-hint sliding bar. */
-@keyframes heroSlide {
-  0% {
-    left: -30%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-
-/* Generic "tick" pulse — used by live status dots in the work-art and the
- * commit footer header. Slow opacity wobble. */
-@keyframes tk {
+/* Hero side-chip bob — each chip translates up 12px on its own loop.
+ * Durations and delays are applied per-instance via inline style. */
+@keyframes hbob {
   0%,
   100% {
-    opacity: 0.5;
+    transform: translateY(0);
   }
   50% {
-    opacity: 1;
+    transform: translateY(-12px);
   }
 }
 
-/* Signal pipeline tunnel rings — staggered concentric pulse. */
+/* Hero floor marquee — track is duplicated inline, so translateX(-50%)
+ * wraps seamlessly. 38s linear loop. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Signal-pipeline tunnel rings — staggered concentric pulse. */
 @keyframes ringPulse {
   0%,
   100% {
@@ -107,68 +145,456 @@ a {
   }
 }
 
-/* Commit footer pulsing live dot — outer ring scales out and fades. */
-@keyframes cfp {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1.7);
-    opacity: 0;
-  }
-}
+/* ──────────────────────────────────────────────────────────────────────────
+ * Project art mockups (Tracker CMS, Signal Pipeline). These are dense,
+ * one-off illustrations rendered inside a 5/4 card. Sizes (8–13px text,
+ * 70px rail, etc.) are tuned to the actual render size — don't increase.
+ * ───────────────────────────────────────────────────────────────────────── */
 
-/* Code snippet syntax highlighting. The snippet HTML carries class names
- * (.k/.s/.f/.t/.c) on inline spans. */
-.code-snippet .k {
-  color: #e8a06a;
+/* Tracker — fake legislative-tracker dashboard. */
+.art-cms {
+  position: absolute;
+  inset: 0;
+  background: #100c08;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  font-family: var(--font-mono);
 }
-.code-snippet .s {
-  color: #9ba876;
+.art-cms .cms-side {
+  background: #0a0805;
+  border-right: 1px solid rgba(239, 232, 218, 0.07);
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
-.code-snippet .f {
-  color: #fff;
-  font-weight: 500;
-}
-.code-snippet .t {
-  color: #d6b488;
-}
-.code-snippet .c {
-  color: rgba(239, 232, 218, 0.32);
-  font-style: italic;
-}
-.code-snippet .marker {
-  display: inline-flex;
+.art-cms .cms-side .logo {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
+  gap: 5px;
+  padding: 0 11px 10px;
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 500;
+  color: var(--color-cream);
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(239, 232, 218, 0.06);
+  margin-bottom: 6px;
+}
+.art-cms .cms-side .logo .lg {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--color-copper);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  font-family: var(--font-sans);
-  cursor: pointer;
-  vertical-align: middle;
-  margin: 0 3px;
-  transition: transform 0.2s;
-  font-style: normal;
+  box-shadow: 0 0 5px var(--color-copper);
+  flex-shrink: 0;
 }
-.code-snippet .marker.active,
-.code-snippet .marker:hover {
-  transform: scale(1.18);
-  background: #fff;
-  color: var(--color-ink);
+.art-cms .cms-side .nv {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  font-size: 9px;
+  color: rgba(239, 232, 218, 0.5);
+  letter-spacing: 0.05em;
+  border-left: 2px solid transparent;
+}
+.art-cms .cms-side .nv .ic {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: rgba(239, 232, 218, 0.18);
+  flex-shrink: 0;
+}
+.art-cms .cms-side .nv.act {
+  color: var(--color-cream);
+  background: rgba(184, 90, 42, 0.1);
+  border-left-color: var(--color-copper);
+}
+.art-cms .cms-side .nv.act .ic {
+  background: var(--color-copper);
+}
+.art-cms .cms-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.art-cms .cms-top {
+  height: 26px;
+  background: #0d0905;
+  border-bottom: 1px solid rgba(239, 232, 218, 0.07);
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  gap: 7px;
+  flex-shrink: 0;
+}
+.art-cms .cms-top .cr {
+  font-size: 8.5px;
+  color: rgba(239, 232, 218, 0.5);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.art-cms .cms-top .cr .sep {
+  color: rgba(239, 232, 218, 0.25);
+  margin: 0 5px;
+}
+.art-cms .cms-top .sr {
+  margin-left: auto;
+  font-size: 8.5px;
+  color: rgba(239, 232, 218, 0.32);
+  background: rgba(239, 232, 218, 0.04);
+  border: 1px solid rgba(239, 232, 218, 0.07);
+  padding: 2px 8px;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+.art-cms .cms-top .us {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-copper), #8b3f1a);
+  flex-shrink: 0;
+}
+.art-cms .cms-body {
+  flex: 1;
+  padding: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-height: 0;
+  min-width: 0;
+}
+.art-cms .cms-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.art-cms .cms-h .tt {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-cream);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+}
+.art-cms .cms-h .tt .it {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+.art-cms .cms-h .ac {
+  display: flex;
+  gap: 4px;
+  font-size: 8.5px;
+  color: rgba(239, 232, 218, 0.7);
+  flex-shrink: 0;
+}
+.art-cms .cms-h .ac .bt {
+  padding: 3px 8px;
+  background: rgba(239, 232, 218, 0.05);
+  border: 1px solid rgba(239, 232, 218, 0.1);
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.art-cms .cms-h .ac .bt.p {
+  background: var(--color-copper);
+  color: #fff;
+  border-color: transparent;
+}
+.art-cms .stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+.art-cms .stat {
+  background: rgba(239, 232, 218, 0.04);
+  border: 1px solid rgba(239, 232, 218, 0.07);
+  border-radius: 4px;
+  padding: 5px 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 5px;
+  min-width: 0;
+}
+.art-cms .stat .lb {
+  font-size: 8px;
+  color: rgba(239, 232, 218, 0.5);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.art-cms .stat .vl {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-cream);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.art-cms .table {
+  background: rgba(239, 232, 218, 0.025);
+  border: 1px solid rgba(239, 232, 218, 0.07);
+  border-radius: 4px;
+  padding: 5px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+  min-height: 0;
+  flex: 1;
+}
+.art-cms .table .th {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 38px;
+  gap: 7px;
+  padding: 0 4px 4px;
+  border-bottom: 1px solid rgba(239, 232, 218, 0.07);
+  font-size: 7.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(239, 232, 218, 0.4);
+}
+.art-cms .table .tr {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 38px;
+  gap: 7px;
+  padding: 3.5px 4px;
+  align-items: center;
+  border-bottom: 1px dashed rgba(239, 232, 218, 0.04);
+}
+.art-cms .table .tr:last-child {
+  border-bottom: none;
+}
+.art-cms .table .tr.live {
+  background: rgba(184, 90, 42, 0.12);
+  border-radius: 3px;
+  border: 1px solid rgba(184, 90, 42, 0.3);
+}
+.art-cms .table .tr .nm {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  color: rgba(239, 232, 218, 0.85);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.art-cms .table .tr .nm .b {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-moss);
+  flex-shrink: 0;
+}
+.art-cms .table .tr .nm .b.y {
+  background: #d9a23a;
+}
+.art-cms .table .tr .nm .b.r {
+  background: #c84a3a;
+}
+.art-cms .table .tr .nm .b.cu {
+  background: var(--color-copper);
+}
+.art-cms .table .tr .st {
+  font-size: 8px;
+  color: var(--color-moss);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.art-cms .table .tr .st.y {
+  color: #d9a23a;
+}
+.art-cms .table .tr .st.r {
+  color: #c84a3a;
+}
+.art-cms .table .tr.live .st {
+  color: var(--color-copper);
+}
+.art-cms .table .tr .wn {
+  font-size: 8px;
+  color: rgba(239, 232, 218, 0.4);
+  text-align: right;
 }
 
-/* Annotation copy can include inline <code> via dangerouslySetInnerHTML;
- * style it consistently with the snippet body. */
-.annot-text code {
+/* Pipeline — animated SVG ingest diagram. */
+.art-pipe {
+  position: absolute;
+  inset: 0;
+  background: #14100a;
+  background-image: radial-gradient(
+      circle at 50% 50%,
+      rgba(184, 90, 42, 0.16),
+      transparent 65%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 20px,
+      rgba(255, 255, 255, 0.018) 20px 21px
+    );
+  overflow: hidden;
+}
+.art-pipe .corner {
+  position: absolute;
+  top: 13px;
+  left: 16px;
   font-family: var(--font-mono);
-  font-size: 11.5px;
-  background: rgba(255, 255, 255, 0.07);
-  padding: 2px 6px;
-  color: #e8a06a;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(239, 232, 218, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  z-index: 5;
+}
+.art-pipe .corner::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-copper);
+}
+.art-pipe .ticker {
+  position: absolute;
+  top: 13px;
+  right: 16px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(239, 232, 218, 0.55);
+  z-index: 5;
+}
+.art-pipe .stat-line {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: rgba(239, 232, 218, 0.45);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  z-index: 5;
+}
+.art-pipe .stat-line .cu {
+  color: var(--color-copper);
+}
+.art-pipe svg {
+  position: absolute;
+  inset: 38px 12px 30px;
+  width: calc(100% - 24px);
+  height: calc(100% - 68px);
+  overflow: visible;
+}
+.art-pipe .src {
+  position: absolute;
+  left: 16px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(239, 232, 218, 0.78);
+  background: rgba(239, 232, 218, 0.06);
+  border: 1px solid rgba(239, 232, 218, 0.14);
+  padding: 4px 8px;
+  border-radius: 5px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(6px);
+}
+.art-pipe .src .d {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-copper);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px var(--color-copper);
+}
+.art-pipe .src.s1 {
+  top: 18%;
+}
+.art-pipe .src.s2 {
+  top: 36%;
+}
+.art-pipe .src.s3 {
+  top: 54%;
+}
+.art-pipe .src.s4 {
+  top: 72%;
+}
+.art-pipe .tunnel-out {
+  position: absolute;
+  right: 13%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-cream);
+  background: var(--color-copper);
+  padding: 6px 11px;
+  border-radius: 5px;
+  z-index: 5;
+  box-shadow: 0 0 0 5px rgba(184, 90, 42, 0.18),
+    0 0 22px rgba(184, 90, 42, 0.4);
+}
+.art-pipe .feed {
+  stroke: rgba(239, 232, 218, 0.22);
+  stroke-width: 1.2;
+  fill: none;
+}
+.art-pipe .ring {
+  stroke: rgba(184, 90, 42, 0.55);
+  fill: none;
+}
+.art-pipe .ring.r1 {
+  stroke-width: 1.4;
+  animation: ringPulse 2.6s ease-in-out infinite;
+}
+.art-pipe .ring.r2 {
+  stroke-width: 1.1;
+  opacity: 0.6;
+  animation: ringPulse 2.6s ease-in-out 0.4s infinite;
+}
+.art-pipe .ring.r3 {
+  stroke-width: 0.9;
+  opacity: 0.35;
+  animation: ringPulse 2.6s ease-in-out 0.8s infinite;
+}
+.art-pipe .trunk {
+  stroke: var(--color-copper);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(184, 90, 42, 0.5));
+}
+.art-pipe .signal {
+  fill: var(--color-copper);
+  filter: drop-shadow(0 0 6px rgba(184, 90, 42, 0.9));
+}
+.art-pipe .signal.warm {
+  fill: #e08a4a;
+}
+.art-pipe .signal.dim {
+  fill: #d9a23a;
+}
+.art-pipe .signal.moss {
+  fill: var(--color-moss);
+  filter: drop-shadow(0 0 5px rgba(90, 109, 58, 0.7));
 }

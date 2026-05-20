@@ -1,118 +1,172 @@
-import { useEffect, useRef } from 'react';
-import { HeroSatellite } from './HeroSatellite';
+import { Eyebrow } from '../../common/atoms/Eyebrow';
+import { cx } from '../../common/utils/cx';
+import {
+  HERO_CHIPS,
+  HERO_STATS,
+  MARQUEE_ITEMS,
+  SOCIAL,
+  type HeroChip,
+} from '../data/portfolio';
+import { HeroCanvas } from './HeroCanvas';
 
-// Hero owns the parallax scroll listener and writes transforms directly to
-// the title/labels/scroll-hint refs. State-driven parallax would re-render
-// on every scroll event — keeping it imperative is the standard pattern.
-export const Hero = () => {
-  const titleRef = useRef<HTMLDivElement>(null);
-  const tlRef = useRef<HTMLDivElement>(null);
-  const trRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+const DOT_BG: Record<HeroChip['dot'], string> = {
+  green: 'bg-[#3F8A4A] shadow-[0_0_0_3px_rgba(63,138,74,0.2)]',
+  copper: 'bg-copper shadow-[0_0_0_3px_rgba(184,90,42,0.2)]',
+  moss: 'bg-moss shadow-[0_0_0_3px_rgba(90,109,58,0.22)]',
+};
 
-  useEffect(() => {
-    const apply = () => {
-      const y = window.scrollY;
-      const max = window.innerHeight;
-      const p = Math.min(1, y / max);
+const ALIGN: Record<NonNullable<HeroChip['align']>, string> = {
+  end: 'self-end',
+  start: 'self-start',
+};
 
-      if (titleRef.current) {
-        titleRef.current.style.transform = `translateY(${-y * 0.35}px)`;
-        titleRef.current.style.opacity = (1 - p * 1.2).toFixed(3);
-      }
-      if (tlRef.current) {
-        tlRef.current.style.transform = `translateY(${-y * 0.25}px)`;
-        tlRef.current.style.opacity = (1 - p * 1.4).toFixed(3);
-      }
-      if (trRef.current) {
-        trRef.current.style.transform = `translateY(${-y * 0.25}px)`;
-        trRef.current.style.opacity = (1 - p * 1.4).toFixed(3);
-      }
-      if (scrollRef.current) {
-        scrollRef.current.style.opacity = Math.max(0, 1 - p * 3).toFixed(3);
-      }
-    };
+const GithubIcon = () => (
+  <svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true' className='h-[14px] w-[14px] shrink-0'>
+    <path d='M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.16c-3.2.7-3.87-1.36-3.87-1.36-.52-1.34-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.47.11-3.07 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.6.23 2.78.11 3.07.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z' />
+  </svg>
+);
 
-    apply();
-    window.addEventListener('scroll', apply, { passive: true });
-    return () => window.removeEventListener('scroll', apply);
-  }, []);
+const LinkedInIcon = () => (
+  <svg viewBox='0 0 24 24' fill='currentColor' aria-hidden='true' className='h-[14px] w-[14px] shrink-0'>
+    <path d='M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.61 0 4.28 2.37 4.28 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0Z' />
+  </svg>
+);
 
-  return (
-    <section className='relative h-screen min-h-[680px] overflow-hidden bg-ink'>
-      <div className='absolute inset-0 z-[1]'>
-        <HeroSatellite />
-      </div>
-      <div
-        className='pointer-events-none absolute inset-0 z-[2]'
-        style={{
-          background:
-            'linear-gradient(180deg,rgba(27,20,12,.45) 0%,transparent 25%,transparent 60%,rgba(27,20,12,.75) 100%),linear-gradient(90deg,rgba(27,20,12,.35) 0%,transparent 35%)',
-        }}
-      />
+export const Hero = () => (
+  <section
+    id='hero'
+    className='relative flex min-h-screen items-center overflow-hidden bg-cream text-ink'
+  >
+    <HeroCanvas />
 
-      <div
-        ref={tlRef}
-        className='hero-tl absolute left-10 top-[84px] z-[5] font-mono text-[10.5px] uppercase leading-[1.7] tracking-[0.18em] text-cream/70 will-change-[transform,opacity] max-[1100px]:left-6 max-[1100px]:right-6 max-[1100px]:top-[78px]'
-      >
-        <div className='flex items-center gap-[10px] before:block before:h-[5px] before:w-[5px] before:rounded-full before:bg-copper before:content-[""]'>
-          Now / Software Engineer III
-        </div>
-        <div>
-          <span className='text-cream/40'>Based</span> &nbsp; New York, NY
-        </div>
-        <div>
-          <span className='text-cream/40'>Tenure</span> &nbsp; 4 years ·
-          Leadership Connect
-        </div>
-      </div>
+    {/* Soft warm veil over the canvas. */}
+    <div
+      aria-hidden='true'
+      className='pointer-events-none absolute inset-0 z-2 bg-[radial-gradient(ellipse_at_22%_32%,rgba(239,232,218,0.45)_0%,rgba(239,232,218,0)_55%),linear-gradient(180deg,transparent_0%,transparent_72%,rgba(229,220,201,0.55)_100%)]'
+    />
+    {/* Inner hero grain. */}
+    <div
+      aria-hidden='true'
+      className='pointer-events-none absolute inset-0 z-3 opacity-45 bg-[radial-gradient(circle_at_1px_1px,rgba(27,20,12,0.04)_1px,transparent_0)] bg-[length:4px_4px]'
+    />
 
-      <div
-        ref={trRef}
-        className='hero-tr absolute right-10 top-[84px] z-[5] text-right font-mono text-[10.5px] uppercase leading-[1.7] tracking-[0.18em] text-cream/70 will-change-[transform,opacity] max-[1100px]:right-6 max-[1100px]:top-[78px]'
-      >
-        <div>
-          <span className='text-copper'>●</span> Available May 2026
-        </div>
-        <div>Open to senior fullstack roles</div>
-      </div>
+    <div className='relative z-5 mx-auto grid w-full max-w-360 grid-cols-[1fr_320px] items-center gap-16 px-10 pt-30 pb-[110px] max-[900px]:grid-cols-1 max-[900px]:gap-8 max-[900px]:px-[22px] max-[900px]:pt-25 max-[900px]:pb-[90px]'>
+      <div className='max-w-160'>
+        <Eyebrow dim className='mb-6'>
+          Software Engineer III · New York
+        </Eyebrow>
 
-      <div
-        ref={titleRef}
-        className='hero-title absolute bottom-[120px] left-10 z-[5] max-w-[90%] text-cream will-change-[transform,opacity] max-[1100px]:bottom-[96px] max-[1100px]:left-6'
-      >
-        <h1 className='mb-7 font-sans font-light leading-[0.86] tracking-[-0.045em] text-[clamp(80px,14vw,232px)]'>
+        <h1 className='mb-5.5 font-sans font-light leading-[0.95] tracking-[-0.035em] text-[clamp(48px,5.5vw,72px)]'>
           Francesco
           <br />
-          <span className='it text-cream'>Seddo.</span>
+          <span className='it'>Seddo.</span>
         </h1>
-        <div
-          className='flex max-w-[600px] items-center gap-[14px] font-sans text-[13px] font-medium uppercase tracking-[0.24em] text-cream/75'
-          style={{}}
-        >
-          <span className='inline-block h-px w-12 bg-copper' />
-          Frontend-leaning, fullstack by nature.
-          <span className='ml-4 text-cream/50'>
-            Four years, one company, three rebuilds.
-          </span>
+
+        <p className='mb-8 max-w-[48ch] text-base leading-[1.65] text-ink-mid'>
+          I build <strong className='font-medium text-ink'>fast, durable web applications</strong> and the systems behind them. Frontend-leaning, fullstack by nature. Four years at Leadership Connect.
+        </p>
+
+        <div className='mb-12 flex flex-wrap items-center gap-2.5'>
+          <a
+            href='#projects'
+            className='inline-flex items-center gap-2 rounded-pill border border-transparent bg-ink px-5 py-[11px] font-mono text-[11.5px] tracking-[0.08em] text-cream transition-all duration-250 hover:-translate-y-px hover:bg-copper'
+          >
+            View Projects →
+          </a>
+          <a
+            href={SOCIAL.github}
+            target='_blank'
+            rel='noreferrer'
+            aria-label='GitHub'
+            className='inline-flex items-center gap-2 rounded-pill border border-line bg-[rgba(255,252,247,0.55)] px-5 py-[11px] font-mono text-[11.5px] tracking-[0.08em] text-ink backdrop-blur-md transition-all duration-250 hover:border-ink hover:bg-white'
+          >
+            <GithubIcon />
+            GitHub
+          </a>
+          <a
+            href={SOCIAL.linkedin}
+            target='_blank'
+            rel='noreferrer'
+            aria-label='LinkedIn'
+            className='inline-flex items-center gap-2 rounded-pill border border-line bg-[rgba(255,252,247,0.55)] px-5 py-[11px] font-mono text-[11.5px] tracking-[0.08em] text-ink backdrop-blur-md transition-all duration-250 hover:border-ink hover:bg-white'
+          >
+            <LinkedInIcon />
+            LinkedIn
+          </a>
+        </div>
+
+        <div className='flex flex-wrap border-t border-line pt-6'>
+          {HERO_STATS.map((stat, i) => (
+            <div
+              key={stat.label}
+              className={cx(
+                'pr-9',
+                i < HERO_STATS.length - 1 && 'mr-9 border-r border-line-2',
+                'max-[900px]:mr-5 max-[900px]:mb-[14px] max-[900px]:pr-5'
+              )}
+            >
+              <div className='mb-[5px] font-sans text-[28px] font-light leading-none tracking-tight text-ink'>
+                {stat.value}
+                <span className='text-copper'>{stat.unit}</span>
+              </div>
+              <div className='font-mono text-[9.5px] uppercase tracking-[0.12em] text-ink-light'>
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div
-        ref={scrollRef}
-        className='hero-scroll absolute bottom-8 left-10 z-[5] flex items-center gap-[14px] font-mono text-[10.5px] uppercase tracking-[0.18em] text-cream/55 will-change-[opacity] max-[1100px]:left-6'
-      >
-        <span>Scroll</span>
-        <span className='relative block h-px w-[60px] overflow-hidden bg-cream/40'>
-          <span className='absolute inset-y-0 -left-[30%] w-[30%] animate-[heroSlide_2.4s_ease-in-out_infinite] bg-cream' />
-        </span>
-        <span>Explore</span>
+      <div className='flex flex-col gap-3 max-[900px]:flex-row max-[900px]:flex-wrap'>
+        {HERO_CHIPS.map((chip) => (
+          <div
+            key={chip.heading}
+            style={{
+              animation: `hbob ${chip.bobDurationS}s ease-in-out ${chip.bobDelayS}s infinite`,
+              width: `${chip.widthPct}%`,
+            }}
+            className={cx(
+              'flex items-center gap-[11px] rounded-[13px] border border-line bg-[rgba(255,252,247,0.7)] p-4 shadow-[0_8px_24px_-12px_rgba(27,20,12,0.16)] backdrop-blur-[14px] backdrop-saturate-[140%] will-change-transform',
+              chip.align && ALIGN[chip.align]
+            )}
+          >
+            <span
+              className={cx(
+                'h-[9px] w-[9px] shrink-0 rounded-full',
+                DOT_BG[chip.dot]
+              )}
+            />
+            <div className='flex min-w-0 flex-1 flex-col gap-[2px]'>
+              <span className='text-[13.5px] font-medium leading-tight tracking-[-0.005em] text-ink'>
+                {chip.heading}
+              </span>
+              <span className='font-mono text-[10.5px] tracking-[0.04em] text-ink-light'>
+                {chip.sub}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
+    </div>
 
-      <div className='hero-br absolute bottom-8 right-10 z-[5] text-right font-mono text-[10.5px] uppercase leading-[1.7] tracking-[0.18em] text-cream/55'>
-        Portfolio
-        <br />№ 07 / 2026
+    {/* Floor marquee — pinned to bottom of the hero, full bleed. */}
+    <div className='absolute inset-x-0 bottom-0 z-5 overflow-hidden border-t border-line bg-cream-3 py-[11px]'>
+      <div
+        className='inline-flex whitespace-nowrap font-mono text-[10.5px] uppercase tracking-[0.18em]'
+        style={{ animation: 'marquee 38s linear infinite' }}
+      >
+        {/* Duplicate the items twice so translateX(-50%) wraps seamlessly. */}
+        {[0, 1].map((cycle) => (
+          <div key={cycle} className='inline-flex'>
+            {MARQUEE_ITEMS.map((item) => (
+              <span key={`${cycle}-${item}`} className='inline-flex'>
+                <span className='px-6'>{item}</span>
+                <span className='text-copper/60'>/</span>
+              </span>
+            ))}
+          </div>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);

@@ -1,14 +1,11 @@
 import { useRevealOnScroll } from '../common/hooks/useRevealOnScroll';
-import { Nav } from './sections/Nav';
-import { Hero } from './sections/Hero';
-import { Intro } from './sections/Intro';
-import { Work } from './sections/work/Work';
-import { Craft } from './sections/craft/Craft';
-import { Career } from './sections/Career';
-import { Stack } from './sections/Stack';
-import { ContactStrip } from './sections/ContactStrip';
+import { About } from './sections/About';
+import { Experience } from './sections/Experience';
 import { Footer } from './sections/Footer';
-import { CommitFooter } from './sections/CommitFooter';
+import { Hero } from './sections/Hero';
+import { Nav } from './sections/Nav';
+import { Stack } from './sections/Stack';
+import { Work } from './sections/work/Work';
 
 export const HomePage = () => {
   useRevealOnScroll();
@@ -16,17 +13,12 @@ export const HomePage = () => {
   return (
     <>
       <Nav />
-      <main className='bg-cream text-ink'>
-        <Hero />
-        <Intro />
-        <Work />
-        <Craft />
-        <Career />
-        <Stack />
-        <ContactStrip />
-        <Footer />
-      </main>
-      <CommitFooter />
+      <Hero />
+      <About />
+      <Work />
+      <Experience />
+      <Stack />
+      <Footer />
     </>
   );
 };
