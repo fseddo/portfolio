@@ -16,7 +16,7 @@ export const Nav = () => {
   return (
     <nav
       className={cx(
-        'fixed inset-x-0 top-0 z-100 flex h-15 items-center justify-between px-10 transition-[background,border-color,backdrop-filter] duration-300 max-[900px]:px-[22px]',
+        'fixed inset-x-0 top-0 z-100 flex h-15 items-center justify-between px-10 transition-[background,border-color,backdrop-filter] duration-300 max-[900px]:px-5.5',
         solid
           ? 'border-b border-line bg-cream/88 backdrop-blur-[14px]'
           : 'border-b border-transparent bg-transparent'
@@ -47,7 +47,7 @@ export const Nav = () => {
         href={SOCIAL.resumePdf}
         target='_blank'
         rel='noreferrer'
-        className='rounded-pill border border-ink px-4 py-[7px] font-mono text-[11px] uppercase tracking-[0.12em] text-ink transition-all duration-250 hover:bg-ink hover:text-cream'
+        className='rounded-pill border border-ink px-4 py-1.75 font-mono text-[11px] uppercase tracking-[0.12em] text-ink transition-all duration-250 hover:bg-ink hover:text-cream'
       >
         Resume ↗
       </a>

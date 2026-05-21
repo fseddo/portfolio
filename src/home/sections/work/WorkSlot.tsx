@@ -51,8 +51,8 @@ const FrontContent = ({
   const Art = ARTS[project.id];
   return (
     <>
-      <div className='work-body flex basis-[60%] flex-col justify-center gap-[12px] p-[34px_36px] max-[900px]:basis-auto max-[900px]:p-[26px_28px_28px]'>
-        <div className='flex items-center gap-[9px] font-mono text-[10px] uppercase tracking-[0.14em] text-copper'>
+      <div className='work-body flex basis-[60%] flex-col justify-center gap-3 p-[34px_36px] max-[900px]:basis-auto max-[900px]:p-[26px_28px_28px]'>
+        <div className='flex items-center gap-2.25 font-mono text-[10px] uppercase tracking-[0.14em] text-copper'>
           <span className='font-normal text-ink-light'>{project.eyebrowYear}</span>
           <span>· {project.eyebrowMeta}</span>
         </div>
@@ -66,11 +66,11 @@ const FrontContent = ({
         />
         {/* `.tech-chips` + `.tch` — palette-expand rotates accent colors on
             the 3n+2 and 3n positions inside each card. */}
-        <div className='tech-chips mt-1 flex flex-wrap gap-[6px]'>
+        <div className='tech-chips mt-1 flex flex-wrap gap-1.5'>
           {project.chips.map((chip) => (
             <span
               key={chip}
-              className='tch rounded-pill border border-copper/30 bg-transparent px-[11px] py-[5px] font-mono text-[10.5px] tracking-[0.02em] text-copper transition-colors duration-200 hover:border-transparent hover:bg-copper hover:text-cream'
+              className='tch rounded-pill border border-copper/30 bg-transparent px-2.75 py-1.25 font-mono text-[10.5px] tracking-[0.02em] text-copper transition-colors duration-200 hover:border-transparent hover:bg-copper hover:text-cream'
             >
               {chip}
             </span>
@@ -79,13 +79,13 @@ const FrontContent = ({
         <button
           type='button'
           onClick={onOpen}
-          className='mt-[6px] inline-flex cursor-pointer items-center gap-[10px] self-start border-0 border-b border-ink bg-transparent px-0 py-[5px] font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink transition-all duration-250 hover:gap-4 hover:border-copper hover:text-copper'
+          className='mt-1.5 inline-flex cursor-pointer items-center gap-2.5 self-start border-0 border-b border-ink bg-transparent px-0 py-1.25 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink transition-all duration-250 hover:gap-4 hover:border-copper hover:text-copper'
         >
           View case study →
         </button>
       </div>
 
-      <div className='work-art group/art relative basis-[40%] self-stretch overflow-hidden bg-ink max-[900px]:basis-auto max-[900px]:aspect-[5/4]'>
+      <div className='work-art group/art relative basis-[40%] self-stretch overflow-hidden bg-ink max-[900px]:basis-auto max-[900px]:aspect-5/4'>
         {WRAP_FOR_HOVER_SCALE[project.id] ? (
           <div className='absolute inset-0 transition-transform duration-1200 ease-soft-out group-hover/art:scale-[1.03]'>
             <Art />

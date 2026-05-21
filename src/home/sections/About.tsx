@@ -15,15 +15,15 @@ export const About = () => (
 
     <div className='grid grid-cols-[300px_1fr] items-center gap-16 max-[900px]:grid-cols-1 max-[900px]:gap-12'>
       <div className='rv relative'>
-        <div className='aspect-[3/4] w-full overflow-hidden rounded-lg border border-line bg-cream-2'>
+        <div className='aspect-3/4 w-full overflow-hidden rounded-lg border border-line bg-cream-2'>
           <img
             src='/portfolio/francesco.jpg'
             alt='Francesco Seddo'
             className='h-full w-full object-cover object-[center_15%]'
           />
         </div>
-        <div className='about-badge absolute right-[-14px] bottom-[-14px] min-w-[170px] rounded-lg border border-line bg-cream p-[12px_16px] shadow-[0_8px_24px_-10px_rgba(27,32,29,0.15)]'>
-          <div className='mb-[2px] text-[13px] font-semibold text-ink'>
+        <div className='about-badge absolute -right-3.5 -bottom-3.5 min-w-42.5 rounded-lg border border-line bg-cream p-[12px_16px] shadow-[0_8px_24px_-10px_rgba(27,32,29,0.15)]'>
+          <div className='mb-0.5 text-[13px] font-semibold text-ink'>
             Francesco Seddo
           </div>
           {/* `.r` palette-expand hook — recolors to c2 in globals.css. */}
@@ -37,7 +37,7 @@ export const About = () => (
         <h3 className='mb-5 max-w-[22ch] font-sans font-light leading-[1.1] tracking-[-0.02em] text-ink text-[clamp(28px,3vw,38px)]'>
           Engineer who cares about the <span className='it'>full picture.</span>
         </h3>
-        <div className='space-y-[14px] text-[15px] leading-[1.75] text-ink-mid'>
+        <div className='space-y-3.5 text-[15px] leading-[1.75] text-ink-mid'>
           <p className='max-w-[60ch]'>
             I'm a{' '}
             <strong className='font-medium text-ink'>

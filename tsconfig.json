@@ -18,9 +18,8 @@
     "noEmit": true,
     "useDefineForClassFields": true,
     "types": ["node", "vite/client"],
-    "baseUrl": "",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["./*"]
     }
   },
   "include": ["src", "routes", "routeTree.gen.ts", "vite.config.ts"]

@@ -18,7 +18,7 @@ export const Experience = () => (
         <div
           key={row.date}
           className={cx(
-            'exp-item group grid grid-cols-[200px_1fr_auto] items-start gap-9 border-t border-line py-8 transition-[padding-left] duration-250 hover:pl-[14px]',
+            'exp-item group grid grid-cols-[200px_1fr_auto] items-start gap-9 border-t border-line py-8 transition-[padding-left] duration-250 hover:pl-3.5',
             i === EXPERIENCE.length - 1 && 'border-b border-line',
             'max-[900px]:grid-cols-1 max-[900px]:gap-2',
             'rv',
@@ -26,7 +26,7 @@ export const Experience = () => (
           )}
         >
           <div>
-            <div className='mb-[6px] font-mono text-[10.5px] uppercase tracking-[0.08em] text-ink-light'>
+            <div className='mb-1.5 font-mono text-[10.5px] uppercase tracking-[0.08em] text-ink-light'>
               {row.date}
             </div>
             {/* `.exp-co` palette-expand hook — recolors to c2 inside #career. */}
@@ -46,7 +46,7 @@ export const Experience = () => (
             />
           </div>
 
-          <div className='exp-badge mt-1 self-start whitespace-nowrap rounded-pill border border-line bg-transparent px-[13px] py-[6px] font-mono text-[10.5px] font-medium tracking-[0.04em] text-ink-mid transition-all duration-250 group-hover:border-copper group-hover:bg-copper group-hover:text-cream'>
+          <div className='exp-badge mt-1 self-start whitespace-nowrap rounded-pill border border-line bg-transparent px-3.25 py-1.5 font-mono text-[10.5px] font-medium tracking-[0.04em] text-ink-mid transition-all duration-250 group-hover:border-copper group-hover:bg-copper group-hover:text-cream'>
             {row.badge}
           </div>
         </div>

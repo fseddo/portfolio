@@ -12,14 +12,14 @@ type CasePanelProps = {
 };
 
 const Section = ({ section }: { section: CaseSection }) => (
-  <div className='case-section mb-[18px] last:mb-0'>
-    <div className='lbl mb-2 flex items-center gap-[10px] font-mono text-[9.5px] uppercase tracking-[0.16em] text-copper'>
-      <span className='line inline-block h-px w-[18px] bg-copper' />
+  <div className='case-section mb-4.5 last:mb-0'>
+    <div className='lbl mb-2 flex items-center gap-2.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-copper'>
+      <span className='line inline-block h-px w-4.5 bg-copper' />
       {section.label}
     </div>
     {section.headingHtml && (
       <h4
-        className='mb-[10px] max-w-[40ch] font-sans text-[17px] font-light leading-[1.25] tracking-[-0.005em] text-ink'
+        className='mb-2.5 max-w-[40ch] font-sans text-[17px] font-light leading-tight tracking-[-0.005em] text-ink'
         dangerouslySetInnerHTML={{ __html: section.headingHtml }}
       />
     )}
@@ -35,14 +35,14 @@ const Section = ({ section }: { section: CaseSection }) => (
         {section.bulletsHtml.map((b, i) => (
           <li
             key={i}
-            className='relative pl-[18px] text-[12.5px] leading-[1.6] text-ink-mid before:absolute before:top-[9px] before:left-0 before:h-px before:w-[10px] before:bg-copper [&_strong]:font-medium [&_strong]:text-ink'
+            className='relative pl-4.5 text-[12.5px] leading-[1.6] text-ink-mid before:absolute before:top-2.25 before:left-0 before:h-px before:w-2.5 before:bg-copper [&_strong]:font-medium [&_strong]:text-ink'
             dangerouslySetInnerHTML={{ __html: b }}
           />
         ))}
       </ul>
     )}
     {section.metrics && (
-      <div className='my-[10px] grid grid-cols-3 gap-2'>
+      <div className='my-2.5 grid grid-cols-3 gap-2'>
         {section.metrics.map((m, i) => (
           <div
             key={i}
@@ -60,12 +60,12 @@ const Section = ({ section }: { section: CaseSection }) => (
       </div>
     )}
     {section.stack && (
-      <div className='case-stack mt-2 flex flex-wrap gap-[5px]'>
+      <div className='case-stack mt-2 flex flex-wrap gap-1.25'>
         {section.stack.map((chip, i) => (
           <span
             key={chip}
             className={cx(
-              'chip rounded-pill border px-[9px] py-[3px] font-mono text-[9.5px] tracking-[0.04em]',
+              'chip rounded-pill border px-2.25 py-0.75 font-mono text-[9.5px] tracking-[0.04em]',
               i === 0
                 ? 'border-transparent bg-copper text-cream'
                 : 'border-line bg-[rgba(248,245,236,0.6)] text-ink'
@@ -93,7 +93,7 @@ export const CasePanel = ({ projectId, wide, onClose }: CasePanelProps) => {
       <button
         type='button'
         onClick={onClose}
-        className='mb-[18px] inline-flex items-center gap-2 self-start border-0 border-b border-ink bg-transparent px-0 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink transition-all duration-250 hover:gap-[14px] hover:border-copper hover:text-copper'
+        className='mb-4.5 inline-flex items-center gap-2 self-start border-0 border-b border-ink bg-transparent px-0 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink transition-all duration-250 hover:gap-3.5 hover:border-copper hover:text-copper'
       >
         ← Back
       </button>
@@ -101,17 +101,17 @@ export const CasePanel = ({ projectId, wide, onClose }: CasePanelProps) => {
       <div>
         {/* `.case-num` palette-expand hook — text + `.line` recolored per
             owning slot (Tracker → c2, Pipeline → c3). */}
-        <div className='case-num mb-[10px] flex items-center gap-[10px] font-mono text-[10px] uppercase tracking-[0.18em] text-copper'>
-          <span className='line inline-block h-px w-[22px] bg-copper' />№ {c.number} / Case study
+        <div className='case-num mb-2.5 flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.18em] text-copper'>
+          <span className='line inline-block h-px w-5.5 bg-copper' />№ {c.number} / Case study
         </div>
         <h3
-          className='mb-[10px] font-sans font-light leading-none tracking-[-0.02em] text-ink text-[clamp(26px,2.6vw,32px)]'
+          className='mb-2.5 font-sans font-light leading-none tracking-[-0.02em] text-ink text-[clamp(26px,2.6vw,32px)]'
           dangerouslySetInnerHTML={{ __html: c.titleHtml }}
         />
-        <div className='mb-[18px] max-w-[48ch] font-serif text-base italic leading-[1.4] text-ink-mid'>
+        <div className='mb-4.5 max-w-[48ch] font-serif text-base italic leading-[1.4] text-ink-mid'>
           {c.sub}
         </div>
-        <dl className='mb-[18px] grid grid-cols-[auto_1fr] gap-x-4 gap-y-[6px] border-y border-[rgba(27,32,29,0.18)] py-[14px] font-mono text-[10px] uppercase tracking-[0.06em]'>
+        <dl className='mb-4.5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 border-y border-[rgba(27,32,29,0.18)] py-3.5 font-mono text-[10px] uppercase tracking-[0.06em]'>
           {c.meta.map(([k, v, accent]) => (
             <div key={k} className='contents'>
               <dt className='text-ink-light'>{k}</dt>

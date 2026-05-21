@@ -16,7 +16,7 @@ export const Stack = () => (
     <div className='grid grid-cols-4 gap-8 max-[900px]:grid-cols-2'>
       {STACK.map((cat, i) => (
         <div key={cat.label} className={cx('rv', STAGGER[i])}>
-          <div className='mb-[14px] flex items-baseline justify-between border-b border-ink pb-[10px] font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-ink'>
+          <div className='mb-3.5 flex items-baseline justify-between border-b border-ink pb-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-ink'>
             <span>{cat.label}</span>
             <span className='font-normal text-ink-light'>{cat.items.length}</span>
           </div>
@@ -24,7 +24,7 @@ export const Stack = () => (
             {cat.items.map((item) => (
               <li
                 key={item}
-                className='cursor-default text-[13.5px] leading-[2] text-ink-mid transition-colors duration-150 hover:text-ink'
+                className='cursor-default text-[13.5px] leading-loose text-ink-mid transition-colors duration-150 hover:text-ink'
               >
                 {item}
               </li>
