@@ -12,8 +12,6 @@ export const Work = () => {
       <SectionHead
         eyebrow='Selected work'
         title={<>Projects.</>}
-        noteLine1='№ 02'
-        noteLine2='Three of many'
       />
 
       <div className='flex flex-col gap-8'>

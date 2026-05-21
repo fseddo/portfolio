@@ -81,7 +81,7 @@ const FrontContent = ({
           onClick={onOpen}
           className='mt-1.5 inline-flex cursor-pointer items-center gap-2.5 self-start border-0 border-b border-ink bg-transparent px-0 py-1.25 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink transition-all duration-250 hover:gap-4 hover:border-copper hover:text-copper'
         >
-          View case study →
+          Learn More →
         </button>
       </div>
 

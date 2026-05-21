@@ -9,8 +9,6 @@ export const Stack = () => (
     <SectionHead
       eyebrow='Stack'
       title={<>Technologies.</>}
-      noteLine1='№ 04'
-      noteLine2='Daily tools, in order'
     />
 
     <div className='grid grid-cols-4 gap-8 max-[900px]:grid-cols-2'>

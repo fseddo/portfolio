@@ -9,8 +9,6 @@ export const Experience = () => (
     <SectionHead
       eyebrow='Career'
       title={<>Experience.</>}
-      noteLine1='№ 03'
-      noteLine2='Four years, one company'
     />
 
     <div className='exp-list flex flex-col'>

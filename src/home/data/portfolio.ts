@@ -137,19 +137,19 @@ export const HERO_CHIPS: readonly HeroChip[] = [
 export const PROJECTS: readonly Project[] = [
   {
     id: 'urbanstems',
-    eyebrowYear: '2025',
+    eyebrowYear: '2026',
     eyebrowMeta: 'Live · Personal build',
     titleHtml: 'Urbanstems',
     bodyHtml:
-      'Full-stack e-commerce with <strong>Next.js &amp; Django</strong>. Server-driven filtering and image preloading eliminate visual flicker. 1,000+ products seeded via Sproutly — an AI-assisted Python scraper.',
-    chips: ['Next.js', 'Django', 'Python', 'PostgreSQL', 'AI-assisted'],
+      'A from-scratch web reconstruction of the UrbanStems e-commerce experience. The <strong>catalogue is seeded from a real scrape </strong> of UrbanStems product data and the visual design closely tracks the original. The architectural choices were all included deliberately to practice patterns that show up on bigger teams',
+    chips: ['React 19', 'Django', 'Python', 'PostgreSQL', 'AI-assisted'],
     wide: true,
   },
   {
     id: 'pipeline',
-    eyebrowYear: '2024–26',
-    eyebrowMeta: 'Production · Backend lead',
-    titleHtml: 'Signal <span class="it">Pipeline</span>',
+    eyebrowYear: '2025-26',
+    eyebrowMeta: 'Production · Backend Automation',
+    titleHtml: 'Signal Pipeline',
     bodyHtml:
       'Automated CI/CD ingestion from Twitter, Facebook, news, and email. <strong>Spring Boot · Kotlin · Elasticsearch.</strong> Saves ~2h/day per user across hundreds of users.',
     chips: ['Spring Boot', 'Kotlin', 'Elasticsearch', 'Jenkins'],
@@ -157,10 +157,9 @@ export const PROJECTS: readonly Project[] = [
     {
     id: 'tracker',
     eyebrowYear: '2025',
-    eyebrowMeta: 'Lead · 6 engineers',
-    titleHtml: 'Legislative <span class="it">Tracker</span>',
-    bodyHtml:
-      'Led a 6-engineer rebuild at Leadership Connect. Migrated <strong>Vue/PHP → React + TanStack + Jotai</strong>. Page loads from 3+ minutes to under 2 seconds. Thousands of daily users, no design team.',
+    eyebrowMeta: 'Production · Frontend Lead',
+    titleHtml: 'Legislative Tracker',
+    bodyHtml: "A bill-tracking CMS used by policy analysts, lobbyists, and government affairs teams. I led the frontend rebuild — six engineers, six months, no design team. Vue/PHP became React + TanStack + Tailwind + Jotai. Page loads went from over three minutes to under two seconds.",
     chips: ['React', 'TanStack', 'Jotai', 'TypeScript', 'Tailwind'],
   },
 ];
