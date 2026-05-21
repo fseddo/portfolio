@@ -3,7 +3,6 @@ import { cx } from '../../common/utils/cx';
 import { SOCIAL } from '../data/portfolio';
 
 const NAV_LINKS = [
-  { href: '#about', label: 'About' },
   { href: '#projects', label: 'Projects' },
   { href: '#career', label: 'Career' },
   { href: '#stack', label: 'Stack' },
@@ -22,13 +21,6 @@ export const Nav = () => {
           : 'border-b border-transparent bg-transparent'
       )}
     >
-      {/* <a
-        href='#hero'
-        className='flex items-center gap-2.25 font-sans text-[13px] font-semibold uppercase tracking-[0.18em] text-ink'
-      >
-        <span className='inline-block h-1.75 w-1.75 shrink-0 rounded-full bg-copper' />
-        Francesco Seddo
-      </a> */}
 
       <ul className='flex items-center gap-8 max-[900px]:hidden'>
         {NAV_LINKS.map((link) => (

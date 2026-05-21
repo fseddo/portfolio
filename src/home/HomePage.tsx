@@ -1,5 +1,4 @@
 import { useRevealOnScroll } from '../common/hooks/useRevealOnScroll';
-import { About } from './sections/About';
 import { Experience } from './sections/Experience';
 import { Footer } from './sections/Footer';
 import { Hero } from './sections/Hero';
@@ -14,9 +13,9 @@ export const HomePage = () => {
     <>
       <Nav />
       <Hero />
-      <About />
-      <Work />
+      {/* <About /> */}
       <Experience />
+      <Work />
       <Stack />
       <Footer />
     </>

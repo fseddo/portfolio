@@ -1,4 +1,3 @@
-import { Eyebrow } from '../../common/atoms/Eyebrow';
 import { cx } from '../../common/utils/cx';
 import {
   HERO_CHIPS,
@@ -53,18 +52,13 @@ export const Hero = () => (
 
     <div className='relative z-5 mx-auto grid w-full max-w-360 grid-cols-[1fr_320px] items-center gap-16 px-10 pt-30 pb-27.5 max-[900px]:grid-cols-1 max-[900px]:gap-8 max-[900px]:px-5.5 max-[900px]:pt-25 max-[900px]:pb-22.5'>
       <div className='max-w-160'>
-        <Eyebrow dim className='mb-6'>
-          Software Engineer III · New York
-        </Eyebrow>
-
-        <h1 className='mb-5.5 font-sans font-light leading-[0.95] tracking-[-0.035em] text-[clamp(48px,5.5vw,72px)]'>
-          Francesco
-          <br />
-          <span className='it'>Seddo.</span>
+        <h1 className='mb-5.5 mt-30 text-copper font-sans font-light leading-[0.95] tracking-[-0.035em] text-[clamp(48px,5.5vw,72px)]'>
+         I’m Francesco.
         </h1>
 
-        <p className='mb-8 max-w-[48ch] text-base leading-[1.65] text-ink-mid'>
-          I build <strong className='font-medium text-ink'>fast, durable web applications</strong> and the systems behind them. Frontend-leaning, fullstack by nature. Four years at Leadership Connect.
+        <p className='mb-8 max-w-[70ch] text-base leading-[1.65] text-ink-mid flex flex-col gap-4 font-medium'>
+          <span>I have four years of experience building production web apps in a startup environment. I'm comfortable jumping between problems, picking up new skills, and working closely with end-users to build solutions that make their lives easier.</span>
+          <span>Always trying to become a stronger engineer — through work and my own projects. I'm interested in roles where I'm challenged technically, have room to grow, and make a real impact.</span>
         </p>
 
         <div className='mb-12 flex flex-wrap items-center gap-2.5'>

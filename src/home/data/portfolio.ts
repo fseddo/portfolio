@@ -109,7 +109,7 @@ export const HERO_CHIPS: readonly HeroChip[] = [
   {
     dot: 'c2',
     heading: 'Open to roles',
-    sub: 'Senior · Staff · Fullstack',
+    sub: 'Mid/Senior Engineer · Fullstack',
     bobDurationS: 7.5,
     bobDelayS: 0,
     widthPct: 100,
@@ -117,7 +117,7 @@ export const HERO_CHIPS: readonly HeroChip[] = [
   {
     dot: 'copper',
     heading: 'React · TypeScript',
-    sub: 'Primary stack · TanStack',
+    sub: 'Primary stack · 4+ years experience',
     bobDurationS: 9.5,
     bobDelayS: -2.4,
     align: 'end',
@@ -139,20 +139,11 @@ export const PROJECTS: readonly Project[] = [
     id: 'urbanstems',
     eyebrowYear: '2025',
     eyebrowMeta: 'Live · Personal build',
-    titleHtml: 'Urbanstems Clone',
+    titleHtml: 'Urbanstems',
     bodyHtml:
       'Full-stack e-commerce with <strong>Next.js &amp; Django</strong>. Server-driven filtering and image preloading eliminate visual flicker. 1,000+ products seeded via Sproutly — an AI-assisted Python scraper.',
     chips: ['Next.js', 'Django', 'Python', 'PostgreSQL', 'AI-assisted'],
     wide: true,
-  },
-  {
-    id: 'tracker',
-    eyebrowYear: '2025',
-    eyebrowMeta: 'Lead · 6 engineers',
-    titleHtml: 'Legislative <span class="it">Tracker</span>',
-    bodyHtml:
-      'Led a 6-engineer rebuild at Leadership Connect. Migrated <strong>Vue/PHP → React + TanStack + Jotai</strong>. Page loads from 3+ minutes to under 2 seconds. Thousands of daily users, no design team.',
-    chips: ['React', 'TanStack', 'Jotai', 'TypeScript', 'Tailwind'],
   },
   {
     id: 'pipeline',
@@ -162,6 +153,15 @@ export const PROJECTS: readonly Project[] = [
     bodyHtml:
       'Automated CI/CD ingestion from Twitter, Facebook, news, and email. <strong>Spring Boot · Kotlin · Elasticsearch.</strong> Saves ~2h/day per user across hundreds of users.',
     chips: ['Spring Boot', 'Kotlin', 'Elasticsearch', 'Jenkins'],
+  },
+    {
+    id: 'tracker',
+    eyebrowYear: '2025',
+    eyebrowMeta: 'Lead · 6 engineers',
+    titleHtml: 'Legislative <span class="it">Tracker</span>',
+    bodyHtml:
+      'Led a 6-engineer rebuild at Leadership Connect. Migrated <strong>Vue/PHP → React + TanStack + Jotai</strong>. Page loads from 3+ minutes to under 2 seconds. Thousands of daily users, no design team.',
+    chips: ['React', 'TanStack', 'Jotai', 'TypeScript', 'Tailwind'],
   },
 ];
 
