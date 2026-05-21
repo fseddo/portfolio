@@ -8,7 +8,6 @@ import {
 type CasePanelProps = {
   projectId: ProjectId;
   wide: boolean;
-  open: boolean;
   onClose: () => void;
 };
 
@@ -80,18 +79,15 @@ const Section = ({ section }: { section: CaseSection }) => (
   </div>
 );
 
-export const CasePanel = ({ projectId, wide, open, onClose }: CasePanelProps) => {
+export const CasePanel = ({ projectId, wide, onClose }: CasePanelProps) => {
   const c = CASES[projectId];
   const half = Math.ceil(c.sections.length / 2);
 
   return (
     <div
       className={cx(
-        'case-panel relative flex flex-col overflow-x-hidden rounded-[14px] border border-line bg-cream-3 shadow-[0_30px_60px_-25px_rgba(27,32,29,0.18)] transition-[opacity,transform] duration-[450ms] ease-soft-out',
-        wide ? 'p-[30px_34px]' : 'p-[26px_28px]',
-        open
-          ? 'pointer-events-auto translate-y-0 opacity-100'
-          : 'pointer-events-none translate-y-3 opacity-0'
+        'case-panel relative flex flex-col rounded-[14px] border border-line bg-cream-2',
+        wide ? 'p-[30px_34px]' : 'p-[26px_28px]'
       )}
     >
       <button
